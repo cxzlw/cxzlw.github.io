@@ -19,7 +19,7 @@
     <meta name="description" content="近些阵子知乎上线了针对专栏中盐选文章的反爬系统，随后该系统也被运用在知乎回答页面中的盐选文章上，具体表现为爬取的文章内容中出现大量的错乱词汇。而在本篇文章中我们将一步步带领各位解开这些乱码，在这个过程中我们将对字体反爬有更深入的认识，并学到运用字体反爬时需要注意的问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="聊聊知乎盐选反爬 (回答页篇)">
-<meta property="og:url" content="https://blog.cxzlw.top/2023/07/04/zhihu-aac-old/index.html">
+<meta property="og:url" content="https://blog.cxzlw.top/2023/07/05/zhihu-aac-old/index.html">
 <meta property="og:site_name" content="创新者.老王的博客">
 <meta property="og:description" content="近些阵子知乎上线了针对专栏中盐选文章的反爬系统，随后该系统也被运用在知乎回答页面中的盐选文章上，具体表现为爬取的文章内容中出现大量的错乱词汇。而在本篇文章中我们将一步步带领各位解开这些乱码，在这个过程中我们将对字体反爬有更深入的认识，并学到运用字体反爬时需要注意的问题。">
 <meta property="og:locale" content="zh_CN">
@@ -29,8 +29,8 @@
 <meta property="og:image" content="https://blog.cxzlw.top/imgs/image-3.png">
 <meta property="og:image" content="https://blog.cxzlw.top/imgs/image-4.png">
 <meta property="og:image" content="https://blog.cxzlw.top/imgs/image-5.png">
-<meta property="article:published_time" content="2023-07-04T01:38:31.000Z">
-<meta property="article:modified_time" content="2023-07-04T16:56:59.726Z">
+<meta property="article:published_time" content="2023-07-05T01:49:31.000Z">
+<meta property="article:modified_time" content="2023-07-04T17:50:25.581Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="知乎">
 <meta property="article:tag" content="反爬">
@@ -218,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-07-04 01:38" pubdate>
-          2023年7月4日 凌晨
+        <time datetime="2023-07-05 01:49" pubdate>
+          2023年7月5日 凌晨
         </time>
       </span>
     
@@ -230,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          3k 字
         
       </span>
     
@@ -241,7 +241,7 @@
         
         
         
-          21 分钟
+          26 分钟
         
       </span>
     
@@ -314,7 +314,7 @@
 <h2 id="三、致命缺陷"><a href="#三、致命缺陷" class="headerlink" title="三、致命缺陷"></a>三、致命缺陷</h2><p>字体反爬的根本原理是替换原本的字为一个新字，再用字体将新字渲染为原字，这样对程序而言就只见到新字而不是旧字了，而用户看到的还是原本的内容。因此只要找到新字与原字间的对应关系便可解决该反爬。而要找到这个对应关系，抓住字体中各个字形的特征是必不可少的一环。</p>
 <p>我们打开 <a target="_blank" rel="noopener" href="https://fontdrop.info/">FontDrop!</a> 加载字体，向下翻，观察字形的特征。</p>
 <p><img src="/../imgs/image-5.png" srcset="/img/loading.gif" lazyload alt="字体中的字形"></p>
-<p>我们发现字形的 Glyph 为 uni662F  而 Unicode 为65F6，接下来我们试着查询这两个十六进制数对应的字：</p>
+<p>我们发现字形的 Glyph 为 uni662F 而 Unicode 为 65F6，接下来我们试着查询这两个十六进制数对应的字：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">glyph = <span class="hljs-string">&quot;\u662F&quot;</span><br>unicode = <span class="hljs-string">&quot;\u65F6&quot;</span><br><span class="hljs-built_in">print</span>(glyph, unicode)<br><span class="hljs-comment"># output: 是 时</span><br></code></pre></td></tr></table></figure>
 
 <p>正好，上文提到，「是」在源码中被替换为了「时」。知乎在反爬字体中保留了原字与新字的对应关系，为我们提供了一个极为便捷的捷径，避免了对字形笔画的具体分析，这也是其字体反爬系统的致命缺陷，各位在自己的网站运用字体反爬时也要注意这一点。</p>
@@ -339,6 +339,14 @@
 <h2 id="六、全部代码"><a href="#六、全部代码" class="headerlink" title="六、全部代码"></a>六、全部代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> fontTools <span class="hljs-keyword">import</span> ttLib<br><span class="hljs-keyword">from</span> unicodedata <span class="hljs-keyword">import</span> normalize<br><br>font = ttLib.TTFont(<span class="hljs-string">&quot;DynamicFonts30.ttf&quot;</span>)<br><br>zhihu_dict = &#123;&#125;<br>cmap = font.getBestCmap()<br><br><span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> cmap.items():<br>    zhihu_dict[<span class="hljs-built_in">chr</span>(x[<span class="hljs-number">0</span>])] = normalize(<span class="hljs-string">&quot;NFKC&quot;</span>, <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">int</span>(x[<span class="hljs-number">1</span>][<span class="hljs-number">3</span>:], <span class="hljs-number">16</span>)))<br><br><span class="hljs-built_in">print</span>(zhihu_dict)  <span class="hljs-comment"># &#123;&#x27;一&#x27;: &#x27;不&#x27;, ......, &#x27;这&#x27;: &#x27;发&#x27;&#125;</span><br><br>raw_content = <span class="hljs-string">&quot;在间那块奶酪夹心，时饼干被的喜爱了灵魂。&quot;</span><br>new_content = raw_content.translate(<span class="hljs-built_in">str</span>.maketrans(zhihu_dict))<br><span class="hljs-built_in">print</span>(new_content)  <span class="hljs-comment"># 中间那块奶酪夹心，是饼干被人喜爱的灵魂。</span><br></code></pre></td></tr></table></figure>
 
 <p>上面字体文件名记得换成你自己下载的字体文件名</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>在本文的带领下，我们粗略地了解了知乎所使用的反爬技术，分析了其使用的反爬字体，找出了原字与新字的对应关系，最终将带乱码的文章转为了正常文章。其中，知乎使用的反爬字体没有去掉 Unicode 与 Glyph 的对应关系，虽然这使我们更轻松地得到了对应关系，但是对于知乎而言，这种错误无疑是致命的，因此，在字体反爬的实际运用中，我们更需要避免这种错误。<sup id="fnref:8" class="footnote-ref"><a href="#fn:8" rel="footnote"><span class="hint--top hint--rounded" aria-label="关于如何创造更坚固的字体反爬系统，可以参考这篇文章：[反爬终极方案总结—字体反爬 - 知乎](https://zhuanlan.zhihu.com/p/37838586)（值得一提的是这篇文章就被发表在在知乎上2333）">[8]</span></a></sup></p>
+<p>知乎也在该反爬系统部署到回答页不久以后升级了其专栏反爬系统，本文所介绍的致命缺陷已被修复<sup id="fnref:9" class="footnote-ref"><a href="#fn:9" rel="footnote"><span class="hint--top hint--rounded" aria-label="值得表扬( •̀ ω •́ )y">[9]</span></a></sup>，而解码新反爬系统的内容，就留到本系列的下篇吧。</p>
+<p>（敬请期待）</p>
+<h2 id="友情链接"><a href="#友情链接" class="headerlink" title="友情链接"></a>友情链接</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://cdycc.cn/">C的云存储 - C的云存储所有作品均由用户提供上传分享，仅供网友学习交流!若您的权利被侵害，请联系 357158361@qq.com</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/cxzlw/zhihuDecrypt">GitHub - cxzlw&#x2F;zhihuDecrypt</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/cxzlw/zhihuDecryptApp">GitHub - cxzlw&#x2F;zhihuDecryptApp: The app to decrypt zhihu’s encrypted (probably not) passages.</a></li>
+</ul>
 <h2 id="注"><a href="#注" class="headerlink" title="注"></a>注</h2><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>专栏反爬现已更新，故本文只以回答反爬为演示。
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>由于知乎回答页反爬使用了两套字体，故本文所有截图，代码运行结果等内容可能与实际不符。你可以选择以实际为主或刷新页面直到页面显示的内容与本文一致。
 <a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>.ttf 是因为 <code>data:font/ttf;...</code> 代表该字体是 ttf 格式的。
@@ -346,7 +354,9 @@
 <a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span>康熙部首相关文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?src=11&timestamp=1688488134&ver=4630&signature=JXLh7up18JREGzu-hyDHNVu4-yW-RQnmOFTegveHvhlbDBrcwfMRe9c0b15eJPVo5VFZ-BkntaZvQ1EOGDIdWZ4*dM*9NMTwroaqkGu17aagpE6SDr8v2FgsrmKGus4Z&new=1">康熙部首导致的字典查询异常</a>
 <a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:6" class="footnote-text"><span>标准化相关文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?src=11&timestamp=1688488134&ver=4630&signature=JXLh7up18JREGzu-hyDHNVu4-yW-RQnmOFTegveHvhnpJwhWtfcrbfZyZ0LrFFbzVDaXDT2onRWaIWo*r2Sv9Tg*ZBiuWotp9WQdbrawvxGLj0T5U-xC2fnssc4lEsLl&new=1#:~:text=%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%EF%BC%8C%E6%89%8B%E5%86%99%E5%AD%97%E7%AC%A6%F0%9D%91%93%E9%80%9A%E8%BF%87%20NFKC%20%E6%A0%87%E5%87%86%E8%BD%AC%E6%8D%A2%E4%BB%A5%E5%90%8E%EF%BC%8C%E5%B0%B1%E6%98%AF%E6%99%AE%E9%80%9A%E7%9A%84%E5%AD%97%E6%AF%8Df%EF%BC%8C%E6%89%80%E4%BB%A5%E5%9C%A8%20Python%20%E9%87%8C%E9%9D%A2%EF%BC%8C%E5%A6%82%E6%9E%9C%E4%BD%9C%E4%B8%BA%E5%8F%98%E9%87%8F%E5%90%8D%EF%BC%8C%E8%BF%99%E4%B8%A4%E4%B8%AA%E5%AD%97%E7%AC%A6%E6%98%AF%E4%B8%80%E6%A0%B7%E7%9A%84%E3%80%82">化异为同，Python 在背后帮你做的转换</a>
 <a href="#fnref:6" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:7" class="footnote-text"><span>其中 Unicode 为 int 而 Glyph 为形如 uni4E0D 的 str
-<a href="#fnref:7" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+<a href="#fnref:7" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:8" class="footnote-text"><span>关于如何创造更坚固的字体反爬系统，可以参考这篇文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/37838586">反爬终极方案总结—字体反爬 - 知乎</a>（值得一提的是这篇文章就被发表在在知乎上2333）
+<a href="#fnref:8" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:9" class="footnote-text"><span>值得表扬( •̀ ω •́ )y
+<a href="#fnref:9" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
                 
               </div>
             
@@ -373,7 +383,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>聊聊知乎盐选反爬 (回答页篇)</div>
-      <div>https://blog.cxzlw.top/2023/07/04/zhihu-aac-old/</div>
+      <div>https://blog.cxzlw.top/2023/07/05/zhihu-aac-old/</div>
     </div>
     <div class="license-meta">
       
@@ -385,7 +395,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年7月4日</div>
+          <div>2023年7月5日</div>
         </div>
       
       
@@ -435,8 +445,8 @@
     <div id="cusdis_thread"
       data-host="https://cusdis.com"
       data-app-id="bd220f7c-6b55-463a-912f-6e5a10b9b460"
-      data-page-id="b60ceaf6da9d12e6bf3d9297d120c8dd"
-      data-page-url="2023/07/04/zhihu-aac-old/"
+      data-page-id="e75cd7136d10caf689f9a6c27efb2705"
+      data-page-url="2023/07/05/zhihu-aac-old/"
       data-page-title="聊聊知乎盐选反爬 (回答页篇)"
       data-theme="auto"
     >
