@@ -41,6 +41,18 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
-      - name: Ping Google
-        run: |
-          curl "https://google.com/ping?sitemap=https://blog.cxzlw.top/sitemap.xml"
+      - name: Setup Python
+        uses: actions/setup-python@v3.1.4
+        with:
+          # Version range or exact version of a Python version to use, using SemVer's version range syntax.
+          python-version: 3.11
+      - name: Setup Ping
+        run: pip install git+https://github.com/cxzlw/ping.git
+      - name: Ping
+        run: python -m ping
+        env: 
+          HOST: blog.cxzlw.top
+          INDEX_NOW_KEY: b2a09667745e494db48ac5b915a14789
+          INDEX_NOW_KEY_URL: https://blog.cxzlw.top/b2a09667745e494db48ac5b915a14789.txt
+          SITEMAP: https://blog.cxzlw.top/sitemap.xml
+        
