@@ -49,7 +49,7 @@ jobs:
       - name: Setup Ping
         run: pip install git+https://github.com/cxzlw/ping.git
       - name: Ping
-        run: python -m ping
+        run: python -m ping --google --index-now
         env: 
           HOST: blog.cxzlw.top
           INDEX_NOW_KEY: b2a09667745e494db48ac5b915a14789
