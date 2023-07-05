@@ -43,4 +43,4 @@ jobs:
         uses: actions/deploy-pages@v2
       - name: Ping Google
         run: |
-          curl "http://google.com/ping?sitemap=https://blog.cxzlw.top/sitemap.xml"
+          curl "https://google.com/ping?sitemap=https://blog.cxzlw.top/sitemap.xml"
