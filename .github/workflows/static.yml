@@ -46,6 +46,7 @@ jobs:
         with:
           # Version range or exact version of a Python version to use, using SemVer's version range syntax.
           python-version: 3.11
+          cache: pip
       - name: Setup Ping
         run: pip install git+https://github.com/cxzlw/ping.git
       - name: Ping
