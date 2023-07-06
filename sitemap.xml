@@ -11,6 +11,15 @@
   </url>
   
   <url>
+    <loc>https://blog.cxzlw.top/2023/07/06/zerotier-planet-convert/</loc>
+    
+    <lastmod>2023-07-06</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.cxzlw.top/2023/07/05/zhihu-aac-old/</loc>
     
     <lastmod>2023-07-06</lastmod>
@@ -66,6 +75,27 @@
   </url>
   
   <url>
+    <loc>https://blog.cxzlw.top/tags/Zerotier/</loc>
+    <lastmod>2023-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.cxzlw.top/tags/%E8%87%AA%E5%BB%BAPlanet/</loc>
+    <lastmod>2023-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.cxzlw.top/tags/cxzlw/</loc>
+    <lastmod>2023-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.cxzlw.top/tags/%E7%9F%A5%E4%B9%8E/</loc>
     <lastmod>2023-07-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -74,13 +104,6 @@
   
   <url>
     <loc>https://blog.cxzlw.top/tags/%E5%8F%8D%E7%88%AC/</loc>
-    <lastmod>2023-07-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.cxzlw.top/tags/cxzlw/</loc>
     <lastmod>2023-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
