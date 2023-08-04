@@ -1,0 +1,754 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="cxzlw">
+  <meta name="keywords" content="创新者老王,创新者.老王,博客,技术博客,老王,创新者,Earthno1,FatalError">
+  
+    <meta name="description" content="最近在参与某 OJ 的开发，过程中我们需要一个权限系统。作为一个热爱 MC 的开发者，我很喜欢 luckperms 的设计，于是这个小东西就出来了。在这里给大家分享我们的权限系统设计。 为什么不使用现成的库？ 如上文所说，我很喜欢 luckperms 的 Group，Node，Route 我们希望整个项目使用 PonyORM 我们希望这个库最好不要与某个 Web Framework 强关联，例如现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分享一个权限系统的设计">
+<meta property="og:url" content="https://blog.cxzlw.top/2023/08/04/permission-system-design-share/index.html">
+<meta property="og:site_name" content="创新者.老王的博客">
+<meta property="og:description" content="最近在参与某 OJ 的开发，过程中我们需要一个权限系统。作为一个热爱 MC 的开发者，我很喜欢 luckperms 的设计，于是这个小东西就出来了。在这里给大家分享我们的权限系统设计。 为什么不使用现成的库？ 如上文所说，我很喜欢 luckperms 的 Group，Node，Route 我们希望整个项目使用 PonyORM 我们希望这个库最好不要与某个 Web Framework 强关联，例如现">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-04T07:32:59.000Z">
+<meta property="article:modified_time" content="2023-08-04T11:27:23.912Z">
+<meta property="article:author" content="cxzlw">
+<meta property="article:tag" content="创新者老王">
+<meta property="article:tag" content="创新者.老王">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="技术博客">
+<meta property="article:tag" content="老王">
+<meta property="article:tag" content="创新者">
+<meta property="article:tag" content="Earthno1">
+<meta property="article:tag" content="FatalError">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>分享一个权限系统的设计 - 创新者.老王的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cxzlw.top","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>创新者.老王的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="分享一个权限系统的设计"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        cxzlw
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-08-04 15:32" pubdate>
+          2023年8月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">分享一个权限系统的设计</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>最近在参与某 OJ 的开发，过程中我们需要一个权限系统。作为一个热爱 MC 的开发者，我很喜欢 luckperms 的设计，于是这个小东西就出来了。在这里给大家分享我们的权限系统设计。</p>
+<h2 id="为什么不使用现成的库？"><a href="#为什么不使用现成的库？" class="headerlink" title="为什么不使用现成的库？"></a>为什么不使用现成的库？</h2><ol>
+<li>如上文所说，我很喜欢 luckperms 的 <code>Group</code>，<code>Node</code>，<code>Route</code></li>
+<li>我们希望整个项目使用 PonyORM</li>
+<li>我们希望这个库最好不要与某个 Web Framework 强关联，例如现在我们在用的 <code>Flask</code>，以便我们应对可能的切换框架的情况</li>
+</ol>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><h3 id="权限组"><a href="#权限组" class="headerlink" title="权限组"></a>权限组</h3><p>权限组储存了以下信息</p>
+<ul>
+<li>权限组的名字</li>
+<li>权限组的权重，这个权重只影响直属节点</li>
+<li>权限组的成员，也就是用户</li>
+<li>权限组继承的其他权限组</li>
+<li>权限组直属的权限节点</li>
+</ul>
+<p>权限组的成员不一定要在创建时指定，可以为用户指定某个权限组，效果是一样的。</p>
+<p>权限组可以继承自其他权限组。相同的权限，会取权重较高的权限节点的值。也就是说，会覆盖低权重的节点</p>
+<p>一般情况下，继承自某个权限组的新权限组，权重应当更高，这样才能覆盖某些权限。同时，检查权限时，如果遇到相同权重却互相矛盾的权限节点，无法保证其结果。</p>
+<h3 id="权限节点"><a href="#权限节点" class="headerlink" title="权限节点"></a>权限节点</h3><p>权限节点储存了以下信息</p>
+<ul>
+<li>一个权限 id，代表一个权限</li>
+<li>一个 <code>bool</code> 值，代表是否拥有上述权限</li>
+</ul>
+<p>权限节点本身没有权重，其权重来源是直属的权限组。</p>
+<p>值得一提的是，一般情况下你不需要明确为没有某种权限的权限组，添加值为 <code>False</code> 的权限节点。检查权限时，没有值为 <code>True</code> 的对应节点，相当于没有这个权限。</p>
+<p>我们一般使用值为 <code>False</code> 的权限节点来覆盖父权限组下的某些权限。</p>
+<h3 id="权限-id"><a href="#权限-id" class="headerlink" title="权限 id"></a>权限 id</h3><p>权限是一个概念，在这里我们以权限 id 的形式来代表某种权限。</p>
+<p>这个 id 是一个字符串，其没有具体的命名规则。具体由使用者制定。但我们建议你使用形如 <code>user.login</code>，<code>problem.edit</code>，<code>problem.1001.edit</code> 的格式命名。</p>
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><h3 id="检查权限"><a href="#检查权限" class="headerlink" title="检查权限"></a>检查权限</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> permission <span class="hljs-keyword">import</span> check_permission<br><br>user: User = ...  <span class="hljs-comment"># 自行实现获得 User 对象的代码</span><br><span class="hljs-built_in">print</span>(check_permission(user))<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="权限节点-1"><a href="#权限节点-1" class="headerlink" title="权限节点"></a>权限节点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">user: PermissionGroup = ...  <span class="hljs-comment"># 自行实现获得 PermissionGroup 对象的代码</span><br><br><span class="hljs-comment"># PermissionNode 没有 instance 方法</span><br><span class="hljs-comment"># 因此你需要自己避免在一个 PermissionGroup 下出现重复的 PermissionNode</span><br><span class="hljs-comment"># owner 是一个 PermissionGroup 对象，代表该节点属于这个权限组</span><br><span class="hljs-comment"># permission 是一个权限 id 字符串，检查权限时使用权限 id 而不是权限节点</span><br><span class="hljs-comment"># 代表同一个 permission 的 权限节点可能有多个，他们属于不同的权限组</span><br>this_node = PermissionNode(permission=<span class="hljs-string">&quot;user.login&quot;</span>, value=<span class="hljs-literal">True</span>, owner=user)<br><br>this_node.value = <span class="hljs-literal">False</span>  <span class="hljs-comment"># 修改该权限节点的值，True 代表有这个权限，False代表没有</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="权限组-1"><a href="#权限组-1" class="headerlink" title="权限组"></a>权限组</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># instance 方法可以保证 name 相同时，每次运行都是同一个 PermissionGroup</span><br><span class="hljs-comment"># 方便你维护一个存储了你所有权限结构的文件</span><br><span class="hljs-comment"># 比如我们现在修改的是用户组</span><br>this_group = PermissionGroup.instance(name=<span class="hljs-string">&quot;User&quot;</span>, weight=<span class="hljs-number">1</span>)<br><br>parents = this_group.parents  <span class="hljs-comment"># 该权限组继承的权限组们</span><br>parents.add(another_group)  <span class="hljs-comment"># 使该权限组继承 another_group</span><br>parents.remove(another_group)  <span class="hljs-comment"># 使该权限组不再继承 another_group</span><br><br>this_group.weight = <span class="hljs-number">1</span>  <span class="hljs-comment"># 修改该权限组的权重</span><br><br>this_group.members.add(user)  <span class="hljs-comment"># 向该权限组添加用户</span><br>this_group.members.remove(user)  <span class="hljs-comment"># 从该权限组移除用户</span><br><br>this_group.nodes.add(permission_node)  <span class="hljs-comment"># 向该权限组添加权限节点</span><br>this_group.nodes.remove(permission_node)  <span class="hljs-comment"># 从该权限组移除权限节点</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="针对单个用户修改权限"><a href="#针对单个用户修改权限" class="headerlink" title="针对单个用户修改权限"></a>针对单个用户修改权限</h3><p>思路是给用户分配一个单独的高权限 Group，再给这个 Group 分配 Node</p>
+<h2 id="代码分享"><a href="#代码分享" class="headerlink" title="代码分享"></a>代码分享</h2><h3 id="models-db-py"><a href="#models-db-py" class="headerlink" title="models&#x2F;db.py"></a>models&#x2F;db.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pony.orm <span class="hljs-keyword">import</span> Database<br><br>db = Database()<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="models-user-py"><a href="#models-user-py" class="headerlink" title="models&#x2F;user.py"></a>models&#x2F;user.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pony.orm <span class="hljs-keyword">import</span> Required, <span class="hljs-type">Set</span>, <span class="hljs-type">Optional</span><br><br><span class="hljs-keyword">from</span> .db <span class="hljs-keyword">import</span> db<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(db.Entity):<br>    <span class="hljs-comment"># You should add fields you need here. </span><br>    permission_groups = <span class="hljs-type">Set</span>(<span class="hljs-string">&quot;PermissionGroup&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="models-permission-group-py"><a href="#models-permission-group-py" class="headerlink" title="models&#x2F;permission_group.py"></a>models&#x2F;permission_group.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pony.orm <span class="hljs-keyword">import</span> Required, <span class="hljs-type">Set</span>, db_session<br><br><span class="hljs-keyword">from</span> .db <span class="hljs-keyword">import</span> db<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">PermissionGroup</span>(db.Entity):<br>    name = Required(<span class="hljs-built_in">str</span>, unique=<span class="hljs-literal">True</span>)<br>    weight = Required(<span class="hljs-built_in">int</span>)<br>    nodes = <span class="hljs-type">Set</span>(<span class="hljs-string">&quot;PermissionNode&quot;</span>)<br>    members = <span class="hljs-type">Set</span>(<span class="hljs-string">&quot;User&quot;</span>)<br>    parents = <span class="hljs-type">Set</span>(<span class="hljs-string">&quot;PermissionGroup&quot;</span>, reverse=<span class="hljs-string">&quot;childs&quot;</span>)<br>    childs = <span class="hljs-type">Set</span>(<span class="hljs-string">&quot;PermissionGroup&quot;</span>, reverse=<span class="hljs-string">&quot;parents&quot;</span>)<br><br><span class="hljs-meta">    @classmethod</span><br><span class="hljs-meta">    @db_session</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">instance</span>(<span class="hljs-params">cls, name, weight=<span class="hljs-literal">None</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Return an PermissionGroup instance.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        If a PermissionGroup with the name exists, it will directly return the group,</span><br><span class="hljs-string">            with new weight value. It is noticeable that, if weight is not given, it won&#x27;t be changed.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Or, it will create a new PermissionGroup with the given name and weight value.</span><br><span class="hljs-string">            Notice that if the weight is not given here, an ValueError will be thrown.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        result = cls.get(name=name)<br>        <span class="hljs-keyword">if</span> result <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">if</span> weight <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>                <span class="hljs-keyword">raise</span> ValueError<br>            <span class="hljs-keyword">return</span> cls(name=name, weight=weight)<br>        <span class="hljs-keyword">if</span> weight <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            result.weight = weight<br>        <span class="hljs-keyword">return</span> result<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="models-permission-node-py"><a href="#models-permission-node-py" class="headerlink" title="models&#x2F;permission_node.py"></a>models&#x2F;permission_node.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pony.orm <span class="hljs-keyword">import</span> Required, db_session<br><br><span class="hljs-keyword">from</span> .db <span class="hljs-keyword">import</span> db<br><span class="hljs-keyword">from</span> .permission_group <span class="hljs-keyword">import</span> PermissionGroup<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">PermissionNode</span>(db.Entity):<br>    permission = Required(<span class="hljs-built_in">str</span>)<br>    value = Required(<span class="hljs-built_in">bool</span>)<br>    owner = Required(PermissionGroup)<br><br><span class="hljs-meta">    @classmethod</span><br><span class="hljs-meta">    @db_session</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">instance</span>(<span class="hljs-params">cls, permission, value=<span class="hljs-literal">None</span>, owner=<span class="hljs-literal">None</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Return an PermissionNode instance.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        If a PermissionNode with the permission exists, it will directly return the</span><br><span class="hljs-string">            node, with new weight and owner value. It is noticeable that, if value</span><br><span class="hljs-string">            or owner are not given, it won&#x27;t be changed.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        Or, it will create a new PermissionNode with the given permission, value, and</span><br><span class="hljs-string">            owner value. Notice that if the weight or owner are not given here, an</span><br><span class="hljs-string">            ValueError will be thrown.</span><br><span class="hljs-string"></span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        result = cls.get(permission=permission)<br>        <span class="hljs-keyword">if</span> result <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">if</span> value <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>                <span class="hljs-keyword">raise</span> ValueError<br>            <span class="hljs-keyword">if</span> owner <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>                <span class="hljs-keyword">raise</span> ValueError<br>            <span class="hljs-keyword">return</span> cls(permission=permission, value=value, owner=owner)<br>        <span class="hljs-keyword">if</span> value <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            result.value = value<br>        <span class="hljs-keyword">if</span> owner <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            result.owner = owner<br>        <span class="hljs-keyword">return</span> result<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="permission-init-py"><a href="#permission-init-py" class="headerlink" title="permission&#x2F;__init__.py"></a>permission&#x2F;__init__.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> queue <span class="hljs-keyword">import</span> Queue<br><br><span class="hljs-keyword">from</span> models <span class="hljs-keyword">import</span> User<br><span class="hljs-keyword">from</span> pony.orm <span class="hljs-keyword">import</span> select<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">check_permission</span>(<span class="hljs-params">user: User, permission</span>):<br>    queue = Queue()<br>    weight = <span class="hljs-built_in">float</span>(<span class="hljs-string">&quot;-inf&quot;</span>)<br>    value = <span class="hljs-literal">False</span><br>    <span class="hljs-keyword">for</span> group <span class="hljs-keyword">in</span> user.permission_groups:<br>        queue.put(group)<br>    <span class="hljs-keyword">while</span> <span class="hljs-keyword">not</span> queue.empty():<br>        group = queue.get()<br>        <span class="hljs-keyword">for</span> g <span class="hljs-keyword">in</span> group.parents:<br>            queue.put(g)<br>        <span class="hljs-keyword">if</span> group.weight &lt; weight:<br>            <span class="hljs-keyword">continue</span><br>        values = select(node.value <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> group.nodes <span class="hljs-keyword">if</span> node.permission == permission)<br>        <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> values:<br>            value = v<br>            weight = group.weight<br>    <span class="hljs-keyword">return</span> value<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="代码许可"><a href="#代码许可" class="headerlink" title="代码许可"></a>代码许可</h2><p>如无特殊授权，以上代码均以 <a target="_blank" rel="noopener" href="https://www.gnu.org/licenses/agpl-3.0.html">GNU AGPLv3</a> 授权</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>分享一个权限系统的设计</div>
+      <div>https://blog.cxzlw.top/2023/08/04/permission-system-design-share/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>cxzlw</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年8月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/08/04/test-latex/" title="Latex测试">
+                        <span class="hidden-mobile">Latex测试</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="cusdis" style="width:100%">
+    <div id="cusdis_thread"
+      data-host="https://cusdis.com"
+      data-app-id="bd220f7c-6b55-463a-912f-6e5a10b9b460"
+      data-page-id="3fd4bee1e2a37a4116f205e34bb6844d"
+      data-page-url="2023/08/04/permission-system-design-share/"
+      data-page-title="分享一个权限系统的设计"
+      data-theme="auto"
+    >
+    </div>
+  </div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#cusdis_thread', function() {
+      Fluid.utils.createScript('https://cusdis.com/js/widget/lang/zh-cn.js');
+      Fluid.utils.createScript('https://cusdis.com/js/cusdis.es.js');
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema) {
+        document.querySelector('#cusdis_thread').dataset.theme = schema
+      }
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
