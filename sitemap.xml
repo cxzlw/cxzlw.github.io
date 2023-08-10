@@ -11,42 +11,6 @@
   </url>
   
   <url>
-    <loc>https://blog.cxzlw.top/2023/08/04/permission-system-design-share/</loc>
-    
-    <lastmod>2023-08-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.cxzlw.top/2023/08/08/python-to-windows-service/</loc>
-    
-    <lastmod>2023-08-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.cxzlw.top/2023/08/04/test-latex/</loc>
-    
-    <lastmod>2023-08-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.cxzlw.top/2023/07/05/trace-of-line-01/</loc>
-    
-    <lastmod>2023-08-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.cxzlw.top/2023/07/10/trace-of-line-02/</loc>
     
     <lastmod>2023-08-10</lastmod>
@@ -75,6 +39,42 @@
   
   <url>
     <loc>https://blog.cxzlw.top/about/index.html</loc>
+    
+    <lastmod>2023-08-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.cxzlw.top/2023/08/04/permission-system-design-share/</loc>
+    
+    <lastmod>2023-08-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.cxzlw.top/2023/08/08/python-to-windows-service/</loc>
+    
+    <lastmod>2023-08-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.cxzlw.top/2023/08/04/test-latex/</loc>
+    
+    <lastmod>2023-08-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.cxzlw.top/2023/07/05/trace-of-line-01/</loc>
     
     <lastmod>2023-08-10</lastmod>
     
