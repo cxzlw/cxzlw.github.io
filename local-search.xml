@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>我感兴趣的社团及时间</title>
+    <link href="/2023/08/22/eca-i-am-interested-in/"/>
+    <url>/2023/08/22/eca-i-am-interested-in/</url>
+    
+    <content type="html"><![CDATA[<p>在这整理一下</p><table><thead><tr><th>ECA</th><th>time</th><th>want</th><th>chosen</th><th>notes</th></tr></thead><tbody><tr><td>Minecraft Technology</td><td>周一 中午</td><td>YES</td><td></td><td>Maybe No Attendance?</td></tr><tr><td>Mathematics For Everyone</td><td>周一 16:30</td><td></td><td></td><td>参加一半就全给 Present</td></tr><tr><td>ML x AI</td><td>周一 16:30</td><td>YES</td><td>YES</td><td></td></tr><tr><td>A+ Lit Club</td><td>周一 16:30</td><td></td><td></td><td></td></tr><tr><td>TBU</td><td>周二中午</td><td>YES</td><td></td><td></td></tr><tr><td>Bonvoy 旅享家</td><td>周二下午</td><td></td><td></td><td></td></tr><tr><td>FRC 机器人</td><td>周二 16:30</td><td></td><td></td><td></td></tr><tr><td>(FFE) Behavior Finance Frontier</td><td>周二 16:30 - 17:20</td><td></td><td></td><td></td></tr><tr><td>Web Frontend Development</td><td>周三下午</td><td>YES</td><td>YES</td><td>全给 Present</td></tr><tr><td>Neuro Boost</td><td>周四 16:30 - 17:30</td><td></td><td></td><td></td></tr><tr><td>Advanced Math &amp; Computer Science</td><td>周四 16:40 - 17:40</td><td></td><td></td><td></td></tr><tr><td>SCIE DEV</td><td>周二 周四 时间待定</td><td>YES</td><td>YES</td><td></td></tr><tr><td>聚光文学社</td><td>周五 15:10 - 16:00</td><td></td><td></td><td></td></tr></tbody></table>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>将 Python 项目打包为 Windows service</title>
     <link href="/2023/08/08/python-to-windows-service/"/>
     <url>/2023/08/08/python-to-windows-service/</url>
