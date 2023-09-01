@@ -16,21 +16,22 @@
   <meta name="author" content="cxzlw">
   <meta name="keywords" content="创新者老王,创新者.老王,博客,技术博客,老王,创新者,Earthno1,FatalError">
   
-    <meta name="description" content="今天想把一个 Python 项目用 Nuitka 打包后设为开机自启。突然发现 Nuitka Commercial 可以把 Python 项目打包为 Windows service， 然而要钱（这周生活费够不够我吃的都是个问题……）。当然人家也给出了 win32service 这个东西，那自然要看看。">
+    <meta name="description" content="该系列文章旨在记录我对服务器进行的某些优化。但我所进行的所谓优化不一定是正确的，甚至可能是错误的，将造成巨大后果的。因此，对待此系列文章务必谨慎。同时欢迎纠正我的错误。（轻点喷）             好友开服，与 anmouren 等人在服里修了一座又一座的机器，还有 24h 挂机的假人，服务器 tps 低下。本文旨在尽可能不影响游戏体验（特别是机器）的前提下对其服务">
 <meta property="og:type" content="article">
-<meta property="og:title" content="将 Python 项目打包为 Windows service">
-<meta property="og:url" content="https://blog.cxzlw.top/2023/08/08/python-to-windows-service/index.html">
+<meta property="og:title" content="记MC服务器性能调优">
+<meta property="og:url" content="https://blog.cxzlw.top/2023/07/08/mc-server-optimization-dev-01/index.html">
 <meta property="og:site_name" content="创新者.老王的博客">
-<meta property="og:description" content="今天想把一个 Python 项目用 Nuitka 打包后设为开机自启。突然发现 Nuitka Commercial 可以把 Python 项目打包为 Windows service， 然而要钱（这周生活费够不够我吃的都是个问题……）。当然人家也给出了 win32service 这个东西，那自然要看看。">
+<meta property="og:description" content="该系列文章旨在记录我对服务器进行的某些优化。但我所进行的所谓优化不一定是正确的，甚至可能是错误的，将造成巨大后果的。因此，对待此系列文章务必谨慎。同时欢迎纠正我的错误。（轻点喷）             好友开服，与 anmouren 等人在服里修了一座又一座的机器，还有 24h 挂机的假人，服务器 tps 低下。本文旨在尽可能不影响游戏体验（特别是机器）的前提下对其服务">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-08T12:15:13.000Z">
+<meta property="og:image" content="https://blog.cxzlw.top/imgs/image-2.png">
+<meta property="article:published_time" content="2023-07-07T16:41:26.000Z">
 <meta property="article:modified_time" content="2023-09-01T15:15:24.727Z">
 <meta property="article:author" content="cxzlw">
+<meta property="article:tag" content="Zerotier">
+<meta property="article:tag" content="自建Planet">
 <meta property="article:tag" content="cxzlw">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="Windows service">
-<meta property="article:tag" content="Nuitka">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.cxzlw.top/imgs/image-2.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -38,7 +39,7 @@
   
      <link rel="manifest" href="/manifest.json"> <script type="module">import {Workbox} from "https://registry.npmmirror.com/workbox-window/7.0.0/files/build/workbox-window.prod.mjs";if ("serviceWorker" in navigator){const wb=new Workbox("/sw.js");wb.register();}</script> 
   
-  <title>将 Python 项目打包为 Windows service - 创新者.老王的博客</title>
+  <title>记MC服务器性能调优 - 创新者.老王的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -216,7 +217,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="将 Python 项目打包为 Windows service"></span>
+            <span id="subtitle" data-typed-text="记MC服务器性能调优"></span>
           
         </div>
 
@@ -232,8 +233,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-08-08 20:15" pubdate>
-          2023年8月8日 晚上
+        <time datetime="2023-07-08 00:41" pubdate>
+          2023年7月8日 凌晨
         </time>
       </span>
     
@@ -244,7 +245,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          438 字
         
       </span>
     
@@ -255,7 +256,7 @@
         
         
         
-          16 分钟
+          4 分钟
         
       </span>
     
@@ -300,48 +301,26 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">将 Python 项目打包为 Windows service</h1>
+            <h1 id="seo-header">记MC服务器性能调优</h1>
             
             
               <div class="markdown-body">
                 
-                <p>今天想把一个 Python 项目用 Nuitka 打包后设为开机自启。突然发现 Nuitka Commercial 可以把 Python 项目打包为 Windows service， 然而要钱（这周生活费够不够我吃的都是个问题……）。当然人家也给出了 <code>win32service</code> 这个东西，那自然要看看。</p>
-<div class="note note-warning">
-            <p>前排提醒，我还没解决没网络权限的问题 :(</p>
+                <div class="note note-warning">
+            <p>该系列文章旨在记录我对服务器进行的某些优化。但我所进行的所谓优化不一定是正确的，甚至可能是错误的，将造成巨大后果的。因此，对待此系列文章务必谨慎。同时欢迎纠正我的错误。（轻点喷）</p>
           </div>
 
-<h2 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h2><p>安装主要是 <code>pywin32</code> 和 <code>nuitka</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install nuitka pywin32<br></code></pre></td></tr></table></figure>
+<p>好友开服，与 <a href="https://blog.cxzlw.top/tags/%E8%B7%AF%E8%BF%87%E7%9A%84%E6%9F%90%E4%B8%AA%E5%AD%A6%E6%B8%A3/">anmouren</a> 等人在服里修了一座又一座的机器，还有 24h 挂机的假人，服务器 tps 低下。本文旨在尽可能不影响游戏体验（特别是机器）的前提下对其服务器进行优化。</p>
+<h2 id="一、本文要进行的修改"><a href="#一、本文要进行的修改" class="headerlink" title="一、本文要进行的修改"></a>一、本文要进行的修改</h2><p>为服务器安装 <a target="_blank" rel="noopener" href="https://spark.lucko.me/">Spark</a> 插件，运行下列命令：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">/spark</span> profiler start <span class="hljs-params">--only-ticks-over</span> 60<br></code></pre></td></tr></table></figure>
 
-<h3 id="原程序"><a href="#原程序" class="headerlink" title="原程序"></a>原程序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> app <span class="hljs-keyword">import</span> app<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    app.run(<span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-number">8899</span>)<br><br></code></pre></td></tr></table></figure>
+<p>同时激活影响 tps 的各种因素，如猪人塔，沼泽刷怪塔等。待收集数据后，运行下列命令：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">/spark profiler stop<br></code></pre></td></tr></table></figure>
 
-<h2 id="二、改为-Windows-service"><a href="#二、改为-Windows-service" class="headerlink" title="二、改为 Windows service"></a>二、改为 Windows service</h2><p>参考 <a target="_blank" rel="noopener" href="https://gist.github.com/drmalex07/10554232">An example Windows service implemented with pywin32 wrappers. #python #windows-service #pywin32  · GitHub</a> 和 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25770873/python-windows-service-pyinstaller-executables-error-1053/25934756#25934756">Python Windows service pyinstaller executables error 1053 - Stack Overflow</a>，将上面的代码改成这样</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><br><span class="hljs-comment"># Filename: windows_service_entry</span><br><br><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-keyword">import</span> servicemanager<br><span class="hljs-keyword">import</span> win32serviceutil<br><br><span class="hljs-keyword">from</span> app <span class="hljs-keyword">import</span> app<br><span class="hljs-keyword">from</span> win32serviceutil <span class="hljs-keyword">import</span> ServiceFramework<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">WinSvcEntry</span>(<span class="hljs-title class_ inherited__">ServiceFramework</span>):<br>    _svc_name_ = <span class="hljs-string">&quot;StandaloneLicenseServer&quot;</span><br>    _svc_display_name_ = <span class="hljs-string">&quot;Standalone License Server&quot;</span><br>    _svc_description_ = <span class="hljs-string">&quot;Standalone License Server by cxzlw&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, args</span>):<br>        <span class="hljs-built_in">super</span>().__init__(args)<br>        self.running = <span class="hljs-literal">False</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">SvcDoRun</span>(<span class="hljs-params">self</span>):<br>        app.run(<span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-number">8899</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">SvcStop</span>(<span class="hljs-params">self</span>):<br>        app.stop()<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(sys.argv) == <span class="hljs-number">1</span>:<br>        servicemanager.Initialize()<br>        servicemanager.PrepareToHostSingle(WinSvcEntry)<br>        servicemanager.StartServiceCtrlDispatcher()<br>    <span class="hljs-keyword">else</span>:<br>        win32serviceutil.HandleCommandLine(WinSvcEntry)<br><br></code></pre></td></tr></table></figure>
-
-<p>然后用 Nuitka 打包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nuitka windows_service_entry.py --follow-imports --standalone<br></code></pre></td></tr></table></figure>
-
-<p>跑起来，记得带管理员权限。然后不出所料地，炸了……</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs log">ModuleNotFoundError: No module named &#x27;win32timezone&#x27;<br></code></pre></td></tr></table></figure>
-
-<p>把 <code>win32timezone</code> 加到 Nuitka 的 <code>--include-module</code> 里面，再打包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nuitka windows_service_entry.py --follow-imports --standalone --include-module=<span class="hljs-string">&quot;win32timezone&quot;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="三、运行-安装"><a href="#三、运行-安装" class="headerlink" title="三、运行&#x2F;安装"></a>三、运行&#x2F;安装</h2><p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">windows_service_entry.exe install<br></code></pre></td></tr></table></figure>
-
-<p>更新</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">windows_service_entry.exe update<br></code></pre></td></tr></table></figure>
-
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">windows_service_entry.exe start<br></code></pre></td></tr></table></figure>
-
-<p>停止</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">windows_service_entry.exe stop<br></code></pre></td></tr></table></figure>
-
-<h2 id="四、限制"><a href="#四、限制" class="headerlink" title="四、限制"></a>四、限制</h2><p>需要注意的是，这样跑起来的 service 并没有权限访问网络。这个问题到现在我也没解决，<del>可以期待一下接下来的一篇文章</del>（也失败了，就不发了 :( ）。</p>
-<p>唉，要说运行一个 Web server 肯定是失败了。但是作为一个 Windows service，还是可以跑的……</p>
-<p>同时，如果有相应的解决方案的，欢迎告诉我，谢谢。</p>
+<p>随后，打开获得的性能分析文件进行分析：</p>
+<p><img src="/../imgs/image-2.png" srcset="/img/loading.gif" lazyload alt="性能分析"></p>
+<p>观察到 EntityZombie.tick() 和 EntityVillager.inactiveTick()，那我们今天就在这个地方砍一刀，我们的办法是让这个方法（或者里面的方法）有概率的不执行。</p>
+<h2 id="二、对代码动刀子"><a href="#二、对代码动刀子" class="headerlink" title="二、对代码动刀子"></a>二、对代码动刀子</h2><p>使用 BuildTool </p>
 
                 
               </div>
@@ -354,13 +333,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
+        <a href="/tags/Zerotier/" class="print-no-link">#Zerotier</a>
+      
+        <a href="/tags/%E8%87%AA%E5%BB%BAPlanet/" class="print-no-link">#自建Planet</a>
+      
         <a href="/tags/cxzlw/" class="print-no-link">#cxzlw</a>
-      
-        <a href="/tags/Python/" class="print-no-link">#Python</a>
-      
-        <a href="/tags/Windows-service/" class="print-no-link">#Windows service</a>
-      
-        <a href="/tags/Nuitka/" class="print-no-link">#Nuitka</a>
       
     </div>
   
@@ -372,8 +349,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>将 Python 项目打包为 Windows service</div>
-      <div>https://blog.cxzlw.top/2023/08/08/python-to-windows-service/</div>
+      <div>记MC服务器性能调优</div>
+      <div>https://blog.cxzlw.top/2023/07/08/mc-server-optimization-dev-01/</div>
     </div>
     <div class="license-meta">
       
@@ -385,10 +362,38 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年8月8日</div>
+          <div>2023年7月8日</div>
         </div>
       
       
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
       
     </div>
     <div class="license-icon iconfont"></div>
@@ -401,9 +406,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/08/22/eca-i-am-interested-in/" title="我感兴趣的社团及时间">
+                      <a href="/2023/07/10/trace-of-line-02/" title="《飞石》Pt.1 未掷出的石子 第二章：失忆？归真会？">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">我感兴趣的社团及时间</span>
+                        <span class="hidden-mobile">《飞石》Pt.1 未掷出的石子 第二章：失忆？归真会？</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -411,8 +416,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/08/04/permission-system-design-share/" title="分享一个 Python 权限系统库的设计">
-                        <span class="hidden-mobile">分享一个 Python 权限系统库的设计</span>
+                      <a href="/2023/07/06/zerotier-planet-convert/" title="Zerotier 自定义 Planet 后与标准节点互通">
+                        <span class="hidden-mobile">Zerotier 自定义 Planet 后与标准节点互通</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -431,9 +436,9 @@
     <div id="cusdis_thread"
       data-host="https://cusdis.com"
       data-app-id="bd220f7c-6b55-463a-912f-6e5a10b9b460"
-      data-page-id="3cc8175aad29a2e364e2ecab63383edc"
-      data-page-url="2023/08/08/python-to-windows-service/"
-      data-page-title="将 Python 项目打包为 Windows service"
+      data-page-id="aacda8765f6088ce0916fa4ce2f5c842"
+      data-page-url="2023/07/08/mc-server-optimization-dev-01/"
+      data-page-title="记MC服务器性能调优"
       data-theme="auto"
     >
     </div>

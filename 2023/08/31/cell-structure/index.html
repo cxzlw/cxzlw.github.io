@@ -13,24 +13,32 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="cxzlw">
+  <meta name="author" content="cxzlw (Thomas Wang)">
   <meta name="keywords" content="创新者老王,创新者.老王,博客,技术博客,老王,创新者,Earthno1,FatalError">
   
-    <meta name="description" content="今天想把一个 Python 项目用 Nuitka 打包后设为开机自启。突然发现 Nuitka Commercial 可以把 Python 项目打包为 Windows service， 然而要钱（这周生活费够不够我吃的都是个问题……）。当然人家也给出了 win32service 这个东西，那自然要看看。">
+    <meta name="description" content="Cell structureMind mapmindmap     root((Cell structure))         Organelles all typical cells have             Cell membrane                 Controls movement in and out of cells.                 Oute">
 <meta property="og:type" content="article">
-<meta property="og:title" content="将 Python 项目打包为 Windows service">
-<meta property="og:url" content="https://blog.cxzlw.top/2023/08/08/python-to-windows-service/index.html">
+<meta property="og:title" content="Biology - Cell structure">
+<meta property="og:url" content="https://blog.cxzlw.top/2023/08/31/cell-structure/index.html">
 <meta property="og:site_name" content="创新者.老王的博客">
-<meta property="og:description" content="今天想把一个 Python 项目用 Nuitka 打包后设为开机自启。突然发现 Nuitka Commercial 可以把 Python 项目打包为 Windows service， 然而要钱（这周生活费够不够我吃的都是个问题……）。当然人家也给出了 win32service 这个东西，那自然要看看。">
+<meta property="og:description" content="Cell structureMind mapmindmap     root((Cell structure))         Organelles all typical cells have             Cell membrane                 Controls movement in and out of cells.                 Oute">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-08T12:15:13.000Z">
+<meta property="og:image" content="https://blog.cxzlw.top/img/animal.jpg">
+<meta property="og:image" content="https://blog.cxzlw.top/img/plant.jpg">
+<meta property="og:image" content="https://blog.cxzlw.top/img/prokaryotic.jpg">
+<meta property="article:published_time" content="2023-08-31T15:11:29.000Z">
 <meta property="article:modified_time" content="2023-09-01T15:15:24.727Z">
 <meta property="article:author" content="cxzlw">
-<meta property="article:tag" content="cxzlw">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="Windows service">
-<meta property="article:tag" content="Nuitka">
+<meta property="article:tag" content="创新者老王">
+<meta property="article:tag" content="创新者.老王">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="技术博客">
+<meta property="article:tag" content="老王">
+<meta property="article:tag" content="创新者">
+<meta property="article:tag" content="Earthno1">
+<meta property="article:tag" content="FatalError">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.cxzlw.top/img/animal.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -38,7 +46,7 @@
   
      <link rel="manifest" href="/manifest.json"> <script type="module">import {Workbox} from "https://registry.npmmirror.com/workbox-window/7.0.0/files/build/workbox-window.prod.mjs";if ("serviceWorker" in navigator){const wb=new Workbox("/sw.js");wb.register();}</script> 
   
-  <title>将 Python 项目打包为 Windows service - 创新者.老王的博客</title>
+  <title>Biology - Cell structure - 创新者.老王的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -216,7 +224,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="将 Python 项目打包为 Windows service"></span>
+            <span id="subtitle" data-typed-text="Biology - Cell structure"></span>
           
         </div>
 
@@ -226,14 +234,14 @@
     
       <span class="post-meta mr-2">
         <i class="iconfont icon-author" aria-hidden="true"></i>
-        cxzlw
+        cxzlw (Thomas Wang)
       </span>
     
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-08-08 20:15" pubdate>
-          2023年8月8日 晚上
+        <time datetime="2023-08-31 23:11" pubdate>
+          2023年8月31日 晚上
         </time>
       </span>
     
@@ -244,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          3.4k 字
         
       </span>
     
@@ -255,7 +263,7 @@
         
         
         
-          16 分钟
+          29 分钟
         
       </span>
     
@@ -300,48 +308,211 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">将 Python 项目打包为 Windows service</h1>
+            <h1 id="seo-header">Biology - Cell structure</h1>
             
             
               <div class="markdown-body">
                 
-                <p>今天想把一个 Python 项目用 Nuitka 打包后设为开机自启。突然发现 Nuitka Commercial 可以把 Python 项目打包为 Windows service， 然而要钱（这周生活费够不够我吃的都是个问题……）。当然人家也给出了 <code>win32service</code> 这个东西，那自然要看看。</p>
-<div class="note note-warning">
-            <p>前排提醒，我还没解决没网络权限的问题 :(</p>
+                <h1 id="Cell-structure"><a href="#Cell-structure" class="headerlink" title="Cell structure"></a>Cell structure</h1><h2 id="Mind-map"><a href="#Mind-map" class="headerlink" title="Mind map"></a>Mind map</h2><pre><code class=" mermaid">mindmap
+    root((Cell structure))
+        Organelles all typical cells have
+            Cell membrane
+                Controls movement in and out of cells.
+                Outer membrane of cell
+                Semi-permeable
+            Cytoplasm
+                Where chemical reactions take place.
+                Surrounded by cell membrane
+                Gel-like mixture containing solutes, organelles, and water
+            Nucleus
+                Contains DNA and controls the cell.
+                Has a nuclear membrane, so DNA is not floating about
+            Mitochondria
+                Where aerobic respiration happens.
+                Folds: create lots of surface area for reactions
+            Ribosomes
+                Allows protein synthesis
+                Each cell contains thousands of them
+                Make proteins by translating RNA codes
+
+        Animal cell
+            Cell membrane
+            Cytoplasm
+            Nucleus
+            Mitochondria
+            Ribosomes
+
+        Plant cell
+            Cell membrane
+            Cytoplasm
+            Nucleus
+            Mitochondria
+            Ribosomes
+            Cell wall
+                Rigid to keep the shape of the cell, strengthens the cell.
+                Outermost layer
+                Permeable: They don&#x27;t select who comes in and who leaves
+            Large Vacuole
+                Cell sap to keep cell turgid.
+                Membrane-bound sacs for storage, digestion, and waste removal
+                Contains water solution
+            Chloroplast
+                Contain chlorophyll, which absorbs light energy for photosynthesis.
+                In green parts of plants
+
+        Prokaryotic cell
+            Cell membrane
+            Cytoplasm
+            Ribosomes
+            Circular DNA
+                Instead of chromosomes, also called Nucleoid, is essential for controlling the activity and reproduction of the prokaryotic cell.
+            Plasmid
+                Small circles of DNA
+            Cell wall
+                Made of peptidoglycan not cellulose
+
+        Differences
+            Plant vs Animal
+                Cell Wall
+                Large Vacuole
+                Chloroplasts
+            Plant vs Prokaryotic
+                Nucleus vs Nucleoid and Plasmid
+                Cellulose vs Peptidoglycan
+
+</code></pre>
+
+<h2 id="Organelles-all-typical-cells-have"><a href="#Organelles-all-typical-cells-have" class="headerlink" title="Organelles all typical cells have"></a>Organelles all typical cells have</h2><h3 id="Cell-membrane"><a href="#Cell-membrane" class="headerlink" title="Cell membrane"></a>Cell membrane</h3><p>Controls movement in and out of cells.</p>
+<ul>
+<li>Outer membrane of cell</li>
+<li>Semi-permeable</li>
+</ul>
+<h3 id="Cytoplasm"><a href="#Cytoplasm" class="headerlink" title="Cytoplasm"></a>Cytoplasm</h3><p>Where chemical reactions take place.</p>
+<ul>
+<li>Surrounded by cell membrane</li>
+<li>Gel-like mixture containing solutes, orangelles, and water</li>
+</ul>
+<h3 id="Nucleus"><a href="#Nucleus" class="headerlink" title="Nucleus"></a>Nucleus</h3><p>Contains DNA and controls the cell.</p>
+<ul>
+<li>Has a nuclear membrane, so DNA is not floating about</li>
+</ul>
+<h3 id="Mitochondria"><a href="#Mitochondria" class="headerlink" title="Mitochondria"></a>Mitochondria</h3><p>Where aerobic respiration happens.</p>
+<ul>
+<li>Folds: create lots of surface area for reactions</li>
+</ul>
+<h3 id="Ribosomes"><a href="#Ribosomes" class="headerlink" title="Ribosomes"></a>Ribosomes</h3><p>Allows protein synthesis</p>
+<ul>
+<li>Each cell contains thousands of them</li>
+<li>Make proteins by translating RNA codes</li>
+</ul>
+<h2 id="Animal-cell"><a href="#Animal-cell" class="headerlink" title="Animal cell"></a>Animal cell</h2><p>Animal cell has all above.</p>
+<h3 id="Diagram"><a href="#Diagram" class="headerlink" title="Diagram"></a>Diagram</h3><p><img src="/../img/animal.jpg" srcset="/img/loading.gif" lazyload alt="Animal cell diagram"></p>
+<h2 id="Plant-cell"><a href="#Plant-cell" class="headerlink" title="Plant cell"></a>Plant cell</h2><p>Plant cell especially also have:</p>
+<h3 id="Cell-wall"><a href="#Cell-wall" class="headerlink" title="Cell wall"></a>Cell wall</h3><p>Rigid to keep the shape of the cell, strengthens the cell.</p>
+<ul>
+<li>Outermost layer</li>
+<li>Permeable: They don’t select who comes in and who leaves</li>
+</ul>
+<h3 id="Large-Vacuole"><a href="#Large-Vacuole" class="headerlink" title="Large Vacuole"></a>Large Vacuole</h3><p>Cell sap to keep cell turgid.</p>
+<ul>
+<li>Membrane-bound sacs for storage, digestion, and waste removal</li>
+<li>Contains water solution</li>
+</ul>
+<h3 id="Chloroplast"><a href="#Chloroplast" class="headerlink" title="Chloroplast"></a>Chloroplast</h3><p>Contain chlorophyll, which absorbs light energy for photosynthesis.</p>
+<ul>
+<li>In green parts of plants</li>
+</ul>
+<h3 id="Diagram-1"><a href="#Diagram-1" class="headerlink" title="Diagram"></a>Diagram</h3><p><img src="/../img/plant.jpg" srcset="/img/loading.gif" lazyload alt="Plant cell diagram"></p>
+<h2 id="Prokaryotic-cell"><a href="#Prokaryotic-cell" class="headerlink" title="Prokaryotic cell"></a>Prokaryotic cell</h2><p>Prokaryotic cell <strong>do not</strong> have Mitochondria and Nucleus but organelles below.</p>
+<h3 id="Cell-wall-1"><a href="#Cell-wall-1" class="headerlink" title="Cell wall"></a>Cell wall</h3><p>Rigid to keep the shape of the cell, strengthens the cell.</p>
+<ul>
+<li>Made of <strong>peptidoglycan</strong> not cellulose</li>
+</ul>
+<h3 id="Circular-DNA"><a href="#Circular-DNA" class="headerlink" title="Circular DNA"></a>Circular DNA</h3><p>Instead of chromosomes, also called <em>Nucleoid</em>, is essential for controlling the acticity and reproduction of the<br>prokaryotic cell.</p>
+<h3 id="Plasmid"><a href="#Plasmid" class="headerlink" title="Plasmid"></a>Plasmid</h3><p>Small circles of DNA.</p>
+<h3 id="Diagram-2"><a href="#Diagram-2" class="headerlink" title="Diagram"></a>Diagram</h3><p><img src="/../img/prokaryotic.jpg" srcset="/img/loading.gif" lazyload alt="Prokaryotic cell diagram"></p>
+<h2 id="Differences"><a href="#Differences" class="headerlink" title="Differences"></a>Differences</h2><h3 id="Organelles-in-cells"><a href="#Organelles-in-cells" class="headerlink" title="Organelles in cells"></a>Organelles in cells</h3><table>
+<thead>
+<tr>
+<th>Organelles \ Cells</th>
+<th>Plant Cell</th>
+<th>Animal Cell</th>
+<th>Prokaryotic Cell</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cell Wall</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Cell Membrane</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Chloroplasts</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Cytoplasm</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Mitochondria</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>Nucleus</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>Ribosome</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Large Vacuole</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Circular DNA</td>
+<td></td>
+<td></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Plasmid</td>
+<td></td>
+<td></td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<h3 id="Some-differences-between-a-plant-cell-and-an-animal-cell"><a href="#Some-differences-between-a-plant-cell-and-an-animal-cell" class="headerlink" title="Some differences between a plant cell and an animal cell"></a>Some differences between a plant cell and an animal cell</h3><ol>
+<li>A plant cell has cell wall, while an animal cell hasn’t.</li>
+<li>A plant cell has large vacuole, while an animal cell hasn’t.</li>
+<li>No animal cell has chloroplasts, but some plant cell do.</li>
+</ol>
+<h3 id="Some-differences-between-a-plant-cell-and-a-prokaryotic-cell"><a href="#Some-differences-between-a-plant-cell-and-a-prokaryotic-cell" class="headerlink" title="Some differences between a plant cell and a prokaryotic cell."></a>Some differences between a plant cell and a prokaryotic cell.</h3><ol>
+<li>A plant cell has nucleus, and a prokaryotic cell has nucleoid and plasmid instead.</li>
+<li>Cell wall in a plant cell is made of cellulose but peptidoglycan in a prokaryotic cell.</li>
+</ol>
+<div class="note note-info">
+            <p>This page was rendered by my blog locally, for a beautiful and well-layouted result, so there are things related to my<br>blog. These things don’t mean it was downloaded from someone’s blog. Of course, this page won’t be avaliable to the<br>public before the assessment is no longer accepting submissions.</p>
           </div>
-
-<h2 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h2><p>安装主要是 <code>pywin32</code> 和 <code>nuitka</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install nuitka pywin32<br></code></pre></td></tr></table></figure>
-
-<h3 id="原程序"><a href="#原程序" class="headerlink" title="原程序"></a>原程序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> app <span class="hljs-keyword">import</span> app<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    app.run(<span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-number">8899</span>)<br><br></code></pre></td></tr></table></figure>
-
-<h2 id="二、改为-Windows-service"><a href="#二、改为-Windows-service" class="headerlink" title="二、改为 Windows service"></a>二、改为 Windows service</h2><p>参考 <a target="_blank" rel="noopener" href="https://gist.github.com/drmalex07/10554232">An example Windows service implemented with pywin32 wrappers. #python #windows-service #pywin32  · GitHub</a> 和 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/25770873/python-windows-service-pyinstaller-executables-error-1053/25934756#25934756">Python Windows service pyinstaller executables error 1053 - Stack Overflow</a>，将上面的代码改成这样</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><br><span class="hljs-comment"># Filename: windows_service_entry</span><br><br><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-keyword">import</span> servicemanager<br><span class="hljs-keyword">import</span> win32serviceutil<br><br><span class="hljs-keyword">from</span> app <span class="hljs-keyword">import</span> app<br><span class="hljs-keyword">from</span> win32serviceutil <span class="hljs-keyword">import</span> ServiceFramework<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">WinSvcEntry</span>(<span class="hljs-title class_ inherited__">ServiceFramework</span>):<br>    _svc_name_ = <span class="hljs-string">&quot;StandaloneLicenseServer&quot;</span><br>    _svc_display_name_ = <span class="hljs-string">&quot;Standalone License Server&quot;</span><br>    _svc_description_ = <span class="hljs-string">&quot;Standalone License Server by cxzlw&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, args</span>):<br>        <span class="hljs-built_in">super</span>().__init__(args)<br>        self.running = <span class="hljs-literal">False</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">SvcDoRun</span>(<span class="hljs-params">self</span>):<br>        app.run(<span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-number">8899</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">SvcStop</span>(<span class="hljs-params">self</span>):<br>        app.stop()<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(sys.argv) == <span class="hljs-number">1</span>:<br>        servicemanager.Initialize()<br>        servicemanager.PrepareToHostSingle(WinSvcEntry)<br>        servicemanager.StartServiceCtrlDispatcher()<br>    <span class="hljs-keyword">else</span>:<br>        win32serviceutil.HandleCommandLine(WinSvcEntry)<br><br></code></pre></td></tr></table></figure>
-
-<p>然后用 Nuitka 打包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nuitka windows_service_entry.py --follow-imports --standalone<br></code></pre></td></tr></table></figure>
-
-<p>跑起来，记得带管理员权限。然后不出所料地，炸了……</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs log">ModuleNotFoundError: No module named &#x27;win32timezone&#x27;<br></code></pre></td></tr></table></figure>
-
-<p>把 <code>win32timezone</code> 加到 Nuitka 的 <code>--include-module</code> 里面，再打包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nuitka windows_service_entry.py --follow-imports --standalone --include-module=<span class="hljs-string">&quot;win32timezone&quot;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="三、运行-安装"><a href="#三、运行-安装" class="headerlink" title="三、运行&#x2F;安装"></a>三、运行&#x2F;安装</h2><p>安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">windows_service_entry.exe install<br></code></pre></td></tr></table></figure>
-
-<p>更新</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">windows_service_entry.exe update<br></code></pre></td></tr></table></figure>
-
-<p>启动</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">windows_service_entry.exe start<br></code></pre></td></tr></table></figure>
-
-<p>停止</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs batch">windows_service_entry.exe stop<br></code></pre></td></tr></table></figure>
-
-<h2 id="四、限制"><a href="#四、限制" class="headerlink" title="四、限制"></a>四、限制</h2><p>需要注意的是，这样跑起来的 service 并没有权限访问网络。这个问题到现在我也没解决，<del>可以期待一下接下来的一篇文章</del>（也失败了，就不发了 :( ）。</p>
-<p>唉，要说运行一个 Web server 肯定是失败了。但是作为一个 Windows service，还是可以跑的……</p>
-<p>同时，如果有相应的解决方案的，欢迎告诉我，谢谢。</p>
 
                 
               </div>
@@ -351,19 +522,6 @@
               <div class="post-metas my-3">
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/cxzlw/" class="print-no-link">#cxzlw</a>
-      
-        <a href="/tags/Python/" class="print-no-link">#Python</a>
-      
-        <a href="/tags/Windows-service/" class="print-no-link">#Windows service</a>
-      
-        <a href="/tags/Nuitka/" class="print-no-link">#Nuitka</a>
-      
-    </div>
-  
 </div>
 
 
@@ -372,20 +530,20 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>将 Python 项目打包为 Windows service</div>
-      <div>https://blog.cxzlw.top/2023/08/08/python-to-windows-service/</div>
+      <div>Biology - Cell structure</div>
+      <div>https://blog.cxzlw.top/2023/08/31/cell-structure/</div>
     </div>
     <div class="license-meta">
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>cxzlw</div>
+          <div>cxzlw (Thomas Wang)</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年8月8日</div>
+          <div>2023年8月31日</div>
         </div>
       
       
@@ -401,18 +559,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/08/22/eca-i-am-interested-in/" title="我感兴趣的社团及时间">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">我感兴趣的社团及时间</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/08/04/permission-system-design-share/" title="分享一个 Python 权限系统库的设计">
-                        <span class="hidden-mobile">分享一个 Python 权限系统库的设计</span>
+                      <a href="/2023/08/22/eca-i-am-interested-in/" title="我感兴趣的社团及时间">
+                        <span class="hidden-mobile">我感兴趣的社团及时间</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -431,9 +583,9 @@
     <div id="cusdis_thread"
       data-host="https://cusdis.com"
       data-app-id="bd220f7c-6b55-463a-912f-6e5a10b9b460"
-      data-page-id="3cc8175aad29a2e364e2ecab63383edc"
-      data-page-url="2023/08/08/python-to-windows-service/"
-      data-page-title="将 Python 项目打包为 Windows service"
+      data-page-id="64b804ac2c423b2d770b9843baffcbe6"
+      data-page-url="2023/08/31/cell-structure/"
+      data-page-title="Biology - Cell structure"
       data-theme="auto"
     >
     </div>
@@ -502,6 +654,21 @@
 
   
 
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.3.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
 
 
 
