@@ -11,15 +11,6 @@
   </url>
   
   <url>
-    <loc>https://blog.cxzlw.top/about/index.html</loc>
-    
-    <lastmod>2023-09-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.cxzlw.top/2023/08/31/cell-structure/</loc>
     
     <lastmod>2023-09-21</lastmod>
@@ -30,15 +21,6 @@
   
   <url>
     <loc>https://blog.cxzlw.top/2023/08/22/eca-i-am-interested-in/</loc>
-    
-    <lastmod>2023-09-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.cxzlw.top/2023/09/21/new-test/</loc>
     
     <lastmod>2023-09-21</lastmod>
     
@@ -102,6 +84,15 @@
   
   <url>
     <loc>https://blog.cxzlw.top/2023/07/05/zhihu-aac-old/</loc>
+    
+    <lastmod>2023-09-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.cxzlw.top/about/index.html</loc>
     
     <lastmod>2023-09-21</lastmod>
     
