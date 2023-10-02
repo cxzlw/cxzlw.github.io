@@ -24,15 +24,13 @@
 <meta property="og:description" content="最近在参与某 OJ 的开发，过程中我们需要一个权限系统。作为一个热爱 MC 的开发者，我很喜欢 luckperms 的设计，于是这个小东西就出来了。在这里给大家分享我们的权限系统设计。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-04T07:32:59.000Z">
-<meta property="article:modified_time" content="2023-09-30T13:52:43.127Z">
+<meta property="article:modified_time" content="2023-10-02T12:30:01.264Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="cxzlw">
 <meta property="article:tag" content="权限系统">
 <meta name="twitter:card" content="summary_large_image">
   
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
   
   
      <link rel="manifest" href="/manifest.json"> <script type="module">import {Workbox} from "https://registry.npmmirror.com/workbox-window/7.0.0/files/build/workbox-window.prod.mjs";if ("serviceWorker" in navigator){const wb=new Workbox("/sw.js");wb.register();}</script> 
@@ -261,17 +259,14 @@
 
     
     
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-      
-    
   </div>
 
 
+    <span id="page_pv" style="display: none;">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="page_pv_value"></span> 次
+    </span>
+    
         
       </div>
 
@@ -578,34 +573,22 @@
     </div>
   
   
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-  
-</div>
-
-  
   
   
 </div>
 
+    <div id="statistics-div" class="statistics">
+        <span id="site_pv" style="display: none">
+            总访问量 
+            <span id="site_pv_value"></span>
+            次
+        </span>
+        <span id="site_uv" style="display: none">
+            总访客数 
+            <span id="site_uv_value"></span>
+            人
+        </span>
+    </div>
   </footer>
 
   <!-- Scripts -->
@@ -748,8 +731,6 @@
 
   <script  src="/js/local-search.js" ></script>
 
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
 
 
 
@@ -764,6 +745,8 @@
 
 
   
+    <script async src="/js/statistics.js"></script>
+    
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
