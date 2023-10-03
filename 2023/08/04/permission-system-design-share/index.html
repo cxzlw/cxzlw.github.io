@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en-US" data-default-color-scheme=auto>
+<html lang="zh-CN" data-default-color-scheme=auto>
 
 
 
@@ -22,9 +22,9 @@
 <meta property="og:url" content="https://blog.cxzlw.top/2023/08/04/permission-system-design-share/index.html">
 <meta property="og:site_name" content="创新者.老王的博客">
 <meta property="og:description" content="最近在参与某 OJ 的开发，过程中我们需要一个权限系统。作为一个热爱 MC 的开发者，我很喜欢 luckperms 的设计，于是这个小东西就出来了。在这里给大家分享我们的权限系统设计。">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-04T07:32:59.000Z">
-<meta property="article:modified_time" content="2023-10-03T14:33:50.527Z">
+<meta property="article:modified_time" content="2023-10-03T14:38:22.702Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="cxzlw">
@@ -121,7 +121,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
-                <span>Startseite</span>
+                <span>首页</span>
               </a>
             </li>
           
@@ -133,7 +133,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
-                <span>Archiv</span>
+                <span>归档</span>
               </a>
             </li>
           
@@ -145,7 +145,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
-                <span>Kategorien</span>
+                <span>分类</span>
               </a>
             </li>
           
@@ -157,7 +157,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
-                <span>Schlagwörter</span>
+                <span>标签</span>
               </a>
             </li>
           
@@ -169,7 +169,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
-                <span>Über</span>
+                <span>关于</span>
               </a>
             </li>
           
@@ -181,7 +181,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/links/">
                 <i class="iconfont icon-link-fill"></i>
-                <span>Weblinks</span>
+                <span>友链</span>
               </a>
             </li>
           
@@ -232,7 +232,7 @@
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
         <time datetime="2023-08-04 15:32" pubdate>
-          August 4, 2023 pm
+          2023年8月4日 下午
         </time>
       </span>
     
@@ -243,7 +243,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.8k wörter
+          3.8k 字
         
       </span>
     
@@ -254,7 +254,7 @@
         
         
         
-          32 minuten
+          32 分钟
         
       </span>
     
@@ -264,7 +264,7 @@
       
         <span id="busuanzi_container_page_pv" style="display: none">
           <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> ansichten
+          <span id="busuanzi_value_page_pv"></span> 次
         </span>
         
       
@@ -388,32 +388,32 @@
     <div class="license-meta">
       
         <div class="license-meta-item">
-          <div>Beitragsautor</div>
+          <div>作者</div>
           <div>cxzlw</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
-          <div>Veröffentlicht am</div>
-          <div>August 4, 2023</div>
+          <div>发布于</div>
+          <div>2023年8月4日</div>
         </div>
       
       
       
         <div class="license-meta-item">
-          <div>Urheberrechtshinweis</div>
+          <div>许可协议</div>
           <div>
             
               
               
                 <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
                     <i class="iconfont icon-by"></i>
                   </span>
                 </a>
               
                 <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="SA - Share-alike">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
                     <i class="iconfont icon-sa"></i>
                   </span>
                 </a>
@@ -436,7 +436,7 @@
                       <a href="/2023/08/31/cell-structure/" title="Biology - Cell structure">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">Biology - Cell structure</span>
-                        <span class="visible-mobile">Vorheriger</span>
+                        <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
@@ -445,7 +445,7 @@
                     
                       <a href="/2023/08/04/test-latex/" title="Latex测试">
                         <span class="hidden-mobile">Latex测试</span>
-                        <span class="visible-mobile">Nächster</span>
+                        <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
                     
@@ -498,7 +498,7 @@
     <div id="toc">
   <p class="toc-header">
     <i class="iconfont icon-list"></i>
-    <span>Inhaltsverzeichnis</span>
+    <span>目录</span>
   </p>
   <div class="toc-body" id="toc-body"></div>
 </div>
@@ -554,7 +554,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -562,7 +562,7 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">Stichwort</label>
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
@@ -590,16 +590,16 @@
   
     
       <span id="busuanzi_container_site_pv" style="display: none">
-        Alle Aufrufe: 
+        总访问量 
         <span id="busuanzi_value_site_pv"></span>
-        
+         次
       </span>
     
     
       <span id="busuanzi_container_site_uv" style="display: none">
-        Alle Besucher: 
+        总访客数 
         <span id="busuanzi_value_site_uv"></span>
-        
+         人
       </span>
     
     
@@ -785,7 +785,7 @@
     
 
   <noscript>
-    <div class="noscript-warning">Blog funktioniert am besten mit aktiviertem JavaScript</div>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
 </body>
 </html>
