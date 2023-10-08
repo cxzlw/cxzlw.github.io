@@ -48,7 +48,7 @@ jobs:
           python-version: 3.11
           cache: 'pip'
       - name: Setup Ping
-        run: pip install git+https://github.com/cxzlw/ping.git
+        run: pip install -r requirements.txt
       - name: Ping
         run: python -m ping --google --index-now
         env: 
