@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://blog.cxzlw.top/img/plant.jpg">
 <meta property="og:image" content="https://blog.cxzlw.top/img/prokaryotic.jpg">
 <meta property="article:published_time" content="2023-08-31T15:11:29.000Z">
-<meta property="article:modified_time" content="2023-10-07T05:54:54.562Z">
+<meta property="article:modified_time" content="2023-10-08T05:15:09.274Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="cxzlw">
 <meta property="article:tag" content="Blog">
@@ -60,6 +60,8 @@
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
 
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -86,7 +88,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.cxzlw.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":false,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"blog.cxzlw.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -220,7 +222,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png.webp') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -406,10 +408,7 @@
 </ul>
 <h2 id="Animal-cell"><a href="#Animal-cell" class="headerlink" title="Animal cell"></a>Animal cell</h2><p>Animal cell has all above.</p>
 <h3 id="Diagram"><a href="#Diagram" class="headerlink" title="Diagram"></a>Diagram</h3><p>
-        <picture>
-            <source lazyload-data data-srcset="/../img/animal.jpg.webp" type="image/webp">
-            <img src="/../img/animal.jpg" srcset="/img/loading.gif" lazyload alt="Animal cell diagram">
-        </picture>
+        <img src="/../img/animal.jpg.webp" srcset="/img/loading.gif" lazyload alt="Animal cell diagram">
         </p>
 <h2 id="Plant-cell"><a href="#Plant-cell" class="headerlink" title="Plant cell"></a>Plant cell</h2><p>Plant cell especially also have:</p>
 <h3 id="Cell-wall"><a href="#Cell-wall" class="headerlink" title="Cell wall"></a>Cell wall</h3><p>Rigid to keep the shape of the cell, strengthens the cell.</p>
@@ -427,10 +426,7 @@
 <li>In green parts of plants</li>
 </ul>
 <h3 id="Diagram-1"><a href="#Diagram-1" class="headerlink" title="Diagram"></a>Diagram</h3><p>
-        <picture>
-            <source lazyload-data data-srcset="/../img/plant.jpg.webp" type="image/webp">
-            <img src="/../img/plant.jpg" srcset="/img/loading.gif" lazyload alt="Plant cell diagram">
-        </picture>
+        <img src="/../img/plant.jpg.webp" srcset="/img/loading.gif" lazyload alt="Plant cell diagram">
         </p>
 <h2 id="Prokaryotic-cell"><a href="#Prokaryotic-cell" class="headerlink" title="Prokaryotic cell"></a>Prokaryotic cell</h2><p>Prokaryotic cell <strong>do not</strong> have Mitochondria and Nucleus but organelles below.</p>
 <h3 id="Cell-wall-1"><a href="#Cell-wall-1" class="headerlink" title="Cell wall"></a>Cell wall</h3><p>Rigid to keep the shape of the cell, strengthens the cell.</p>
@@ -440,10 +436,7 @@
 <h3 id="Circular-DNA"><a href="#Circular-DNA" class="headerlink" title="Circular DNA"></a>Circular DNA</h3><p>Instead of chromosomes, also called <em>Nucleoid</em>, is essential for controlling the acticity and reproduction of the<br>prokaryotic cell.</p>
 <h3 id="Plasmid"><a href="#Plasmid" class="headerlink" title="Plasmid"></a>Plasmid</h3><p>Small circles of DNA.</p>
 <h3 id="Diagram-2"><a href="#Diagram-2" class="headerlink" title="Diagram"></a>Diagram</h3><p>
-        <picture>
-            <source lazyload-data data-srcset="/../img/prokaryotic.jpg.webp" type="image/webp">
-            <img src="/../img/prokaryotic.jpg" srcset="/img/loading.gif" lazyload alt="Prokaryotic cell diagram">
-        </picture>
+        <img src="/../img/prokaryotic.jpg.webp" srcset="/img/loading.gif" lazyload alt="Prokaryotic cell diagram">
         </p>
 <h2 id="Differences"><a href="#Differences" class="headerlink" title="Differences"></a>Differences</h2><h3 id="Organelles-in-cells"><a href="#Organelles-in-cells" class="headerlink" title="Organelles in cells"></a>Organelles in cells</h3><table>
 <thead>
@@ -665,6 +658,9 @@
 
 
 
+  
+
+
 
   
 
@@ -874,6 +870,14 @@
         anchors.add(res.join(', '));
       }
     });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
   });
 </script>
 
