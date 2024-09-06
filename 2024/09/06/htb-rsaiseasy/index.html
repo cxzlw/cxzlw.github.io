@@ -23,8 +23,8 @@
 <meta property="og:site_name" content="创新者老王的博客">
 <meta property="og:description" content="原题地址：HackTheBox - RSAisEasy  之前做过这个题，是与另一位朋友一起分析的，但是当时没有写 writeup，于是再梳理一遍。 从标题可以看出，这道题与 RSA 有点相关，因此会用到一部分基于 RSA 公式的数学分析。（说实话，在拉着咱朋友一起来分析数学部分之前，是有那么一点不敢做这题的……） 0. 题目内容题目提供了一个 zip 文件，解压后有两个文件 123456# o">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-06T09:53:28.658Z">
-<meta property="article:modified_time" content="2024-09-06T09:53:28.658Z">
+<meta property="article:published_time" content="2024-09-06T10:01:55.092Z">
+<meta property="article:modified_time" content="2024-09-06T10:01:55.092Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="cxzlw">
 <meta property="article:tag" content="HackTheBox">
@@ -258,8 +258,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-06 17:53" pubdate>
-          2024年9月6日 下午
+        <time datetime="2024-09-06 18:01" pubdate>
+          2024年9月6日 晚上
         </time>
       </span>
     
@@ -270,7 +270,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.9k 字
+          7k 字
         
       </span>
     
@@ -366,7 +366,7 @@
 <p>为方便展示过程，我们将 <code>(n1 * E) + n2</code> 记为 <code>nE</code>。</p>
 <p>$$<br>n2 \equiv nE \pmod {n1}<br>$$</p>
 <p>即</p>
-<p>$$<br>n2 &#x3D; nE\ %\ n1 + n1 \cdot k<br>$$</p>
+<p>$$<br>\def\mod{\text{ mod }}<br>n2 &#x3D; nE \mod n1 + n1 \cdot k<br>$$</p>
 <p>其中 <code>k</code> 是未知的，你可以直接猜测 <code>k = 0</code> 即 <code>n2 = nE % n1</code>，但我还是想证明它。</p>
 <p>注意到 <code>n2</code> 是两个 <code>getPrime(512)</code> 相乘，因此 <code>0 &lt; k &lt; 2^1024</code>。接下来用代码测试 <code>k</code> 可以的取值。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">n1 = <span class="hljs-number">101302608234750530215072272904674037076286246679691423280860345380727387460347553585319149306846617895151397345134725469568034944362725840889803514170441153452816738520513986621545456486260186057658467757935510362350710672577390455772286945685838373154626020209228183673388592030449624410459900543470481715269</span><br>ne = <span class="hljs-number">601613204734044874510382122719388369424704454445440856955212747733856646787417730534645761871794607755794569926160226856377491672497901427125762773794612714954548970049734347216746397532291215057264241745928752782099454036635249993278807842576939476615587990343335792606509594080976599605315657632227121700808996847129758656266941422227113386647519604149159248887809688029519252391934671647670787874483702292498358573950359909165677642135389614863992438265717898239252246163</span><br><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> (-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>): <br>    n2 = ne % n1 + n1 * k<br>    <span class="hljs-built_in">print</span>(k, <span class="hljs-number">0</span> &lt; n2 &lt; <span class="hljs-number">2</span>**<span class="hljs-number">1024</span>, n2)<br></code></pre></td></tr></table></figure>
