@@ -1,0 +1,817 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="cxzlw">
+  <meta name="keywords" content="cxzlw,Blog,Thomas Wang,Thomas,Wang,创新者老王,创新者.老王,创新者,老王,Earthno1,FatalError,路过的某个学渣,博客,技术博客">
+  
+    <meta name="description" content="原题地址：HackTheBox - RSAisEasy  之前做过这个题，是与另一位朋友一起分析的，但是当时没有写 writeup，于是再梳理一遍。 从标题可以看出，这道题与 RSA 有点相关，因此会用到一部分基于 RSA 公式的数学分析。（说实话，在拉着咱朋友一起来分析数学部分之前，是有那么一点不敢做这题的……） 0. 题目内容题目提供了一个 zip 文件，解压后有两个文件 123456# o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSAisEasy Writeup">
+<meta property="og:url" content="https://blog.cxzlw.top/2024/09/06/htb-rsaiseasy/index.html">
+<meta property="og:site_name" content="创新者老王的博客">
+<meta property="og:description" content="原题地址：HackTheBox - RSAisEasy  之前做过这个题，是与另一位朋友一起分析的，但是当时没有写 writeup，于是再梳理一遍。 从标题可以看出，这道题与 RSA 有点相关，因此会用到一部分基于 RSA 公式的数学分析。（说实话，在拉着咱朋友一起来分析数学部分之前，是有那么一点不敢做这题的……） 0. 题目内容题目提供了一个 zip 文件，解压后有两个文件 123456# o">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-06T09:53:28.658Z">
+<meta property="article:modified_time" content="2024-09-06T09:53:28.658Z">
+<meta property="article:author" content="cxzlw">
+<meta property="article:tag" content="cxzlw">
+<meta property="article:tag" content="HackTheBox">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="Writeup">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+     <link rel="manifest" href="/manifest.json"> <script async type="module">import {Workbox} from "https://registry.npmmirror.com/workbox-window/7.0.0/files/build/workbox-window.prod.mjs";if ("serviceWorker" in navigator){const wb=new Workbox("/sw.js");wb.register();}</script> 
+  
+  <title>RSAisEasy Writeup - 创新者老王的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cxzlw.top","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":"G-P5JDEZKGV3"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-P5JDEZKGV3", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-P5JDEZKGV3');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>创新者老王的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png.webp') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RSAisEasy Writeup"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        cxzlw
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-06 17:53" pubdate>
+          2024年9月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          58 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+    <span id="page_pv" style="display: none;">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="page_pv_value"></span> 次
+    </span>
+    
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RSAisEasy Writeup</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原题地址：<a target="_blank" rel="noopener" href="https://app.hackthebox.com/challenges/RSAisEasy">HackTheBox - RSAisEasy</a></p>
+</blockquote>
+<p>之前做过这个题，是与另一位朋友一起分析的，但是当时没有写 writeup，于是再梳理一遍。</p>
+<p>从标题可以看出，这道题与 RSA 有点相关，因此会用到一部分基于 RSA 公式的数学分析。（说实话，在拉着咱朋友一起来分析数学部分之前，是有那么一点不敢做这题的……）</p>
+<h2 id="0-题目内容"><a href="#0-题目内容" class="headerlink" title="0. 题目内容"></a>0. 题目内容</h2><p>题目提供了一个 <code>zip</code> 文件，解压后有两个文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext"># output.txt<br><br>n1: 101302608234750530215072272904674037076286246679691423280860345380727387460347553585319149306846617895151397345134725469568034944362725840889803514170441153452816738520513986621545456486260186057658467757935510362350710672577390455772286945685838373154626020209228183673388592030449624410459900543470481715269<br>c1: 92506893588979548794790672542461288412902813248116064711808481112865246689691740816363092933206841082369015763989265012104504500670878633324061404374817814507356553697459987468562146726510492528932139036063681327547916073034377647100888763559498314765496171327071015998871821569774481702484239056959316014064<br>c2: 46096854429474193473315622000700040188659289972305530955007054362815555622172000229584906225161285873027049199121215251038480738839915061587734141659589689176363962259066462128434796823277974789556411556028716349578708536050061871052948425521408788256153194537438422533790942307426802114531079426322801866673<br>(n1 * E) + n2: 601613204734044874510382122719388369424704454445440856955212747733856646787417730534645761871794607755794569926160226856377491672497901427125762773794612714954548970049734347216746397532291215057264241745928752782099454036635249993278807842576939476615587990343335792606509594080976599605315657632227121700808996847129758656266941422227113386647519604149159248887809688029519252391934671647670787874483702292498358573950359909165677642135389614863992438265717898239252246163<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># RSAisEasy.py</span><br><br><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> bytes_to_long, getPrime<br><span class="hljs-keyword">from</span> secrets <span class="hljs-keyword">import</span> flag1, flag2<br><span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> urandom<br><br>flag1 = bytes_to_long(flag1)<br>flag2 = bytes_to_long(flag2)<br><br>p, q, z = [getPrime(<span class="hljs-number">512</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br><br>e = <span class="hljs-number">0x10001</span><br><br>n1 = p * q<br>n2 = q * z<br><br>c1 = <span class="hljs-built_in">pow</span>(flag1, e, n1)<br>c2 = <span class="hljs-built_in">pow</span>(flag2, e, n2)<br><br>E = bytes_to_long(urandom(<span class="hljs-number">69</span>))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;n1: <span class="hljs-subst">&#123;n1&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;c1: <span class="hljs-subst">&#123;c1&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;c2: <span class="hljs-subst">&#123;c2&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;(n1 * E) + n2: <span class="hljs-subst">&#123;n1 * E + n2&#125;</span>&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="1-眼盯侦！"><a href="#1-眼盯侦！" class="headerlink" title="1. 眼盯侦！"></a>1. 眼盯侦！</h2><p>首先观察提供的代码，注意到 <code>flag1</code> 和 <code>flag2</code> 两个变量，那我们接下来的目标就是还原这两个变量了。</p>
+<p>接下来生成了 3 个质数，分别是 <code>p</code>, <code>q</code>, <code>z</code>，<code>e</code> 使用的是老熟人 <code>0x10001</code>。</p>
+<p>然后使用 <code>p</code>, <code>q</code>, <code>z</code> 计算了 <code>n1</code>, <code>n2</code>。使用 <code>n1</code>, <code>n2</code> 分别加密了 <code>flag1</code>, <code>flag2</code>，得到 <code>c1</code>, <code>c2</code>。</p>
+<p>最后生成了一个随机数 <code>E</code>，并输出了 <code>n1</code>, <code>c1</code>, <code>c2</code>, <code>(n1 * E) + n2</code>。</p>
+<h2 id="2-RSA-公式"><a href="#2-RSA-公式" class="headerlink" title="2. RSA 公式"></a>2. RSA 公式</h2><p>这部分就来自 <a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/zh-cn/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95">RSA加密算法 - 维基百科，自由的百科全书</a> 了，当时咱也是从 Wiki 上现学的。注意这里省略了一些过程。</p>
+<p>加密算法</p>
+<p>$$<br>c &#x3D; n^e \pmod N<br>$$</p>
+<p>解密算法</p>
+<p>$$<br>n &#x3D; c^d \pmod N<br>$$</p>
+<p>密钥相关的公式</p>
+<p>$$<br>N &#x3D; pq,<br>$$</p>
+<p>$$<br>r &#x3D; (p-1)(q-1)<br>$$</p>
+<p>$$<br>ed \equiv 1 \pmod r<br>$$</p>
+<p>从公式可以看出，要解密 <code>c1</code> 和 <code>c2</code>，需要知道 <code>d1</code>, <code>d2</code>，而 <code>d1</code>, <code>d2</code> 是由 <code>e</code>, <code>r1</code>, <code>r2</code> 计算逆元得到的。<code>e</code> 是已知的，现在要求的就是 <code>r1</code>, <code>r2</code> 了。</p>
+<h2 id="3-r"><a href="#3-r" class="headerlink" title="3. r?"></a>3. r?</h2><p>观察代码，发现</p>
+<p>$$<br>n1 &#x3D; pq, n2 &#x3D; qz<br>$$</p>
+<p>由 $p, q, z \in \mathbb{P}$ 得</p>
+<p>$$<br>q &#x3D; \gcd(n1, n2)<br>$$</p>
+<p>$$<br>p &#x3D; \frac{n1}{q}, z &#x3D; \frac{n2}{q}<br>$$</p>
+<p>这样，拿到 <code>p</code>, <code>q</code>, <code>z</code> 后，就可以计算出 <code>r1</code>, <code>r2</code> 了。</p>
+<h2 id="4-d"><a href="#4-d" class="headerlink" title="4. d!"></a>4. d!</h2><p>有了 <code>r1</code>, <code>r2</code> 后，就可以计算出 <code>d1</code>, <code>d2</code> 了。逆元有几种求法，这里我们选择 <a target="_blank" rel="noopener" href="https://oi-wiki.org/math/number-theory/inverse/#%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%B3%95">扩展欧几里得算法</a>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 输入 a=e, b=r, 输出 x=d</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">exgcd</span>(<span class="hljs-params">a, b</span>):<br>    <span class="hljs-keyword">if</span> b == <span class="hljs-number">0</span>:<br>        x = <span class="hljs-number">1</span><br>        y = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">return</span> x, y<br>    x1, y1 = exgcd(b, a % b)<br>    x = y1<br>    y = x1 - (a // b) * y1<br>    <span class="hljs-keyword">return</span> x, y<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-n2"><a href="#5-n2" class="headerlink" title="5. n2"></a>5. n2</h2><p>上面的过程需要一个值 <code>n2</code>，而 <code>n2</code> 不是题目直接给出的，我们需要想办法找出来。</p>
+<p>注意到题目提供了 <code>E</code> 和 <code>(n1 * E) + n2</code>，我们可以通过这个值来找到 <code>n2</code>。</p>
+<p>为方便展示过程，我们将 <code>(n1 * E) + n2</code> 记为 <code>nE</code>。</p>
+<p>$$<br>n2 \equiv nE \pmod {n1}<br>$$</p>
+<p>即</p>
+<p>$$<br>n2 &#x3D; nE\ %\ n1 + n1 \cdot k<br>$$</p>
+<p>其中 <code>k</code> 是未知的，你可以直接猜测 <code>k = 0</code> 即 <code>n2 = nE % n1</code>，但我还是想证明它。</p>
+<p>注意到 <code>n2</code> 是两个 <code>getPrime(512)</code> 相乘，因此 <code>0 &lt; k &lt; 2^1024</code>。接下来用代码测试 <code>k</code> 可以的取值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">n1 = <span class="hljs-number">101302608234750530215072272904674037076286246679691423280860345380727387460347553585319149306846617895151397345134725469568034944362725840889803514170441153452816738520513986621545456486260186057658467757935510362350710672577390455772286945685838373154626020209228183673388592030449624410459900543470481715269</span><br>ne = <span class="hljs-number">601613204734044874510382122719388369424704454445440856955212747733856646787417730534645761871794607755794569926160226856377491672497901427125762773794612714954548970049734347216746397532291215057264241745928752782099454036635249993278807842576939476615587990343335792606509594080976599605315657632227121700808996847129758656266941422227113386647519604149159248887809688029519252391934671647670787874483702292498358573950359909165677642135389614863992438265717898239252246163</span><br><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> (-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>): <br>    n2 = ne % n1 + n1 * k<br>    <span class="hljs-built_in">print</span>(k, <span class="hljs-number">0</span> &lt; n2 &lt; <span class="hljs-number">2</span>**<span class="hljs-number">1024</span>, n2)<br></code></pre></td></tr></table></figure>
+
+<p>得到运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">-1 False -1165705193327509223646449377936290710713049039655470307166720571005763031384300382036555332312895310759950336222328427276047951088897538178479073322538390413188948373749356597618939249379728523681999077958826657180398342840434533058980374881243302617523598758343538175613136045714345227586034384136094220432<br>0 True 100136903041423020991425823526737746365573197640035952973693624809721624428963253203282593974533722584391447008912397042291986993273828302711324440847902763039627790146764630023926517236880457533976468679976683705170312329736955922713306570804595070537102421450884645497775455984735279182873866159334387494837<br>1 False 201439511276173551206498096431411783441859444319727376254553970190449011889310806788601743281380340479542844354047122511860021937636554143601127955018343916492444528667278616645471973723140643591634936437912194067521023002314346378485593516490433443691728441660112829171164048015184903593333766702804869210106<br></code></pre></td></tr></table></figure>
+
+<p>因此 <code>k = 0</code> 而 <code>n2 = nE % n1</code>。</p>
+<h2 id="6-结束了？"><a href="#6-结束了？" class="headerlink" title="6. 结束了？"></a>6. 结束了？</h2><p>按照上述流程编写代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> gcd<br><br>e = <span class="hljs-number">0x10001</span><br>n1 = <span class="hljs-number">101302608234750530215072272904674037076286246679691423280860345380727387460347553585319149306846617895151397345134725469568034944362725840889803514170441153452816738520513986621545456486260186057658467757935510362350710672577390455772286945685838373154626020209228183673388592030449624410459900543470481715269</span><br>ne = <span class="hljs-number">601613204734044874510382122719388369424704454445440856955212747733856646787417730534645761871794607755794569926160226856377491672497901427125762773794612714954548970049734347216746397532291215057264241745928752782099454036635249993278807842576939476615587990343335792606509594080976599605315657632227121700808996847129758656266941422227113386647519604149159248887809688029519252391934671647670787874483702292498358573950359909165677642135389614863992438265717898239252246163</span><br>c1 = <span class="hljs-number">92506893588979548794790672542461288412902813248116064711808481112865246689691740816363092933206841082369015763989265012104504500670878633324061404374817814507356553697459987468562146726510492528932139036063681327547916073034377647100888763559498314765496171327071015998871821569774481702484239056959316014064</span><br>c2 = <span class="hljs-number">46096854429474193473315622000700040188659289972305530955007054362815555622172000229584906225161285873027049199121215251038480738839915061587734141659589689176363962259066462128434796823277974789556411556028716349578708536050061871052948425521408788256153194537438422533790942307426802114531079426322801866673</span><br><br>n2 = ne % n1  <span class="hljs-comment"># 用前面的推导计算 n2</span><br><br>q = gcd(n1, n2)  <span class="hljs-comment"># 计算 p, q, z</span><br>p, z = n1 // q, n2 // q<br><br>r1, r2 = (p - <span class="hljs-number">1</span>) * (q - <span class="hljs-number">1</span>), (q - <span class="hljs-number">1</span>) * (z - <span class="hljs-number">1</span>)  <span class="hljs-comment"># 计算 r1, r2</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">exgcd</span>(<span class="hljs-params">a, b</span>):  <span class="hljs-comment"># 用来求逆元的扩展欧几里得算法</span><br>    <span class="hljs-keyword">if</span> b == <span class="hljs-number">0</span>:<br>        x = <span class="hljs-number">1</span><br>        y = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">return</span> x, y<br>    x1, y1 = exgcd(b, a % b)<br>    x = y1<br>    y = x1 - (a // b) * y1<br>    <span class="hljs-keyword">return</span> x, y<br><br>d1, d2 = exgcd(e, r1)[<span class="hljs-number">0</span>], exgcd(e, r2)[<span class="hljs-number">0</span>]<br>d1, d2 = d1 % r1, d2 % r2  <span class="hljs-comment"># exgcd 算出来可能是负数，所以再 mod 一次</span><br><br>flag1, flag2 = <span class="hljs-built_in">pow</span>(c1, d1, n1), <span class="hljs-built_in">pow</span>(c2, d2, n2)<br><br><span class="hljs-comment"># 一个比较拙劣但是能跑的 int to bytes</span><br>flag_hex = <span class="hljs-built_in">hex</span>(flag1)[<span class="hljs-number">2</span>:] + <span class="hljs-built_in">hex</span>(flag2)[<span class="hljs-number">2</span>:]<br>flag = <span class="hljs-built_in">bytes</span>.fromhex(flag_hex).decode()<br><span class="hljs-built_in">print</span>(flag)<br></code></pre></td></tr></table></figure>
+
+<p>运行上述代码，得到 flag：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">HTB&#123;1_m1ght_h4v3_m3ss3d_uP_jU$t_4_l1ttle_b1t?&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zh.m.wikipedia.org/zh-cn/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95">RSA加密算法 - 维基百科，自由的百科全书</a></li>
+<li><a target="_blank" rel="noopener" href="https://oi-wiki.org/math/number-theory/inverse/">乘法逆元 - OI Wiki</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/cxzlw/" class="print-no-link">#cxzlw</a>
+      
+        <a href="/tags/HackTheBox/" class="print-no-link">#HackTheBox</a>
+      
+        <a href="/tags/Crypto/" class="print-no-link">#Crypto</a>
+      
+        <a href="/tags/Writeup/" class="print-no-link">#Writeup</a>
+      
+        <a href="/tags/CTF/" class="print-no-link">#CTF</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RSAisEasy Writeup</div>
+      <div>https://blog.cxzlw.top/2024/09/06/htb-rsaiseasy/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>cxzlw</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月6日</div>
+        </div>
+      
+      
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/11/json-format/" title="JSON 基础知识">
+                        <span class="hidden-mobile">JSON 基础知识</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="cusdis" style="width:100%">
+    <div id="cusdis_thread"
+      data-host="https://cusdis.com"
+      data-app-id="bd220f7c-6b55-463a-912f-6e5a10b9b460"
+      data-page-id="e418e97ce0acded63569e81f36559008"
+      data-page-url="2024/09/06/htb-rsaiseasy/"
+      data-page-title="RSAisEasy Writeup"
+      data-theme="auto"
+    >
+    </div>
+  </div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#cusdis_thread', function() {
+      Fluid.utils.createScript('https://cusdis.com/js/widget/lang/zh-cn.js');
+      Fluid.utils.createScript('https://cusdis.com/js/cusdis.es.js');
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema) {
+        document.querySelector('#cusdis_thread').dataset.theme = schema
+      }
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+    <div id="statistics-div" class="statistics">
+        <span id="site_pv" style="display: none">
+            总访问量 
+            <span id="site_pv_value"></span>
+            次
+        </span>
+        <span id="site_uv" style="display: none">
+            总访客数 
+            <span id="site_uv_value"></span>
+            人
+        </span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+    <script async src="/js/statistics.js"></script>
+    
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script async src="/js/image-ng.js"></script><script async src="/js/progressbar-done.js"></script><!-- hexo injector body_end end --></body>
+</html>
