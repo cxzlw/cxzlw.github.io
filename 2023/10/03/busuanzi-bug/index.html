@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://blog.cxzlw.top/img/img-20231004-chrome-busuanzi.png">
 <meta property="og:image" content="https://blog.cxzlw.top/img/image-8.png">
 <meta property="article:published_time" content="2023-10-03T15:06:16.000Z">
-<meta property="article:modified_time" content="2024-09-11T13:57:29.450Z">
+<meta property="article:modified_time" content="2024-09-11T14:16:47.517Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="不蒜子">
@@ -338,26 +338,16 @@
               <div class="markdown-body">
                 
                 <p>近期，我的博客在 Safari 中，文章访问量异常的大。经过抓包，确认了问题与 Referer 头相关。然而，Referrer-Policy 并没有解决问题。这与其接口设计有关。本文将进行解释，并提出我的解决方案。</p>
-<h2 id="问题表现"><a href="#问题表现" class="headerlink" title="问题表现"></a>问题表现</h2><div class="group-image-container"><div class="group-image-row"><div class="group-image-wrap">
-        <img src="/../img/image-6.png.webp" srcset="/img/loading.gif" lazyload alt="Safari 打开效果">
-        </div><div class="group-image-wrap">
-        <img src="/../img/image-7.png.webp" srcset="/img/loading.gif" lazyload alt="正常情况打开效果">
-        </div></div></div>
+<h2 id="问题表现"><a href="#问题表现" class="headerlink" title="问题表现"></a>问题表现</h2><div class="group-image-container"><div class="group-image-row"><div class="group-image-wrap"><img src="/../img/image-6.png" srcset="/img/loading.gif" lazyload alt="Safari 打开效果"></div><div class="group-image-wrap"><img src="/../img/image-7.png" srcset="/img/loading.gif" lazyload alt="正常情况打开效果"></div></div></div>
 
 <figcaption aria-hidden="true" class="image-caption">左：Safari 打开效果 右：正常情况打开效果</figcaption>
 
 <p>如图所示，Safari 显示的访问量高达 1k+，比实际访问量高出了 1448 次。这是很奇怪的，引起了我的注意。</p>
 <h2 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h2><p>为了找到引起这个问题的原因，我们对上述页面分别向 busuanzi 发的请求都进行抓包。</p>
-<h3 id="Safari"><a href="#Safari" class="headerlink" title="Safari"></a>Safari</h3><p>
-        <img src="/../img/img-20231004-safari-busuanzi.png.webp" srcset="/img/loading.gif" lazyload alt="Safari 向 busuanzi 发的请求">
-        </p>
-<h3 id="Chrome"><a href="#Chrome" class="headerlink" title="Chrome"></a>Chrome</h3><p>
-        <img src="/../img/img-20231004-chrome-busuanzi.png.webp" srcset="/img/loading.gif" lazyload alt="Chrome 向 busuanzi 发的请求">
-        </p>
+<h3 id="Safari"><a href="#Safari" class="headerlink" title="Safari"></a>Safari</h3><p><img src="/../img/img-20231004-safari-busuanzi.png" srcset="/img/loading.gif" lazyload alt="Safari 向 busuanzi 发的请求"></p>
+<h3 id="Chrome"><a href="#Chrome" class="headerlink" title="Chrome"></a>Chrome</h3><p><img src="/../img/img-20231004-chrome-busuanzi.png" srcset="/img/loading.gif" lazyload alt="Chrome 向 busuanzi 发的请求"></p>
 <p>从上面的两个请求，可以看出Safari 向 busuanzi 发送的请求 Referer 头是错误的。这导致 Safari 获得了 <code>https://blog.cxzlw.top/</code> 的浏览量信息。这是为什么呢？</p>
-<h2 id="高人指点"><a href="#高人指点" class="headerlink" title="高人指点"></a>高人指点</h2><p>加入 busuanzi QQ 群<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="419260983，来自 busunazi 官网 [不蒜子 | 不如](https://ibruce.info/2015/04/04/busuanzi/#more:~:text=%E5%A3%B0%E6%98%8E%EF%BC%9A%E7%BB%8F%E7%94%A8%E6%88%B7%E5%BB%BA%E8%AE%AE%EF%BC%8C%E6%96%B0%E5%A2%9E%E4%B8%8D%E8%92%9C%E5%AD%90%E4%BA%A4%E6%B5%81QQ%E7%BE%A4%EF%BC%9A419260983%EF%BC%8C%E6%AC%A2%E8%BF%8E%E5%A4%A7%E5%AE%B6%E5%8A%A0%E5%85%A5%E3%80%82%E2%80%94%E2%80%94%20%E4%B8%8D%E5%A6%82%EF%BC%8C2017.02)">[1]</span></a></sup>后，我在群中询问。并得到了大佬「　」的回复。<br>
-        <img src="/../img/image-8.png.webp" srcset="/img/loading.gif" lazyload alt="大佬的解答">
-        </p>
+<h2 id="高人指点"><a href="#高人指点" class="headerlink" title="高人指点"></a>高人指点</h2><p>加入 busuanzi QQ 群<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="419260983，来自 busunazi 官网 [不蒜子 | 不如](https://ibruce.info/2015/04/04/busuanzi/#more:~:text=%E5%A3%B0%E6%98%8E%EF%BC%9A%E7%BB%8F%E7%94%A8%E6%88%B7%E5%BB%BA%E8%AE%AE%EF%BC%8C%E6%96%B0%E5%A2%9E%E4%B8%8D%E8%92%9C%E5%AD%90%E4%BA%A4%E6%B5%81QQ%E7%BE%A4%EF%BC%9A419260983%EF%BC%8C%E6%AC%A2%E8%BF%8E%E5%A4%A7%E5%AE%B6%E5%8A%A0%E5%85%A5%E3%80%82%E2%80%94%E2%80%94%20%E4%B8%8D%E5%A6%82%EF%BC%8C2017.02)">[1]</span></a></sup>后，我在群中询问。并得到了大佬「　」的回复。<br><img src="/../img/image-8.png" srcset="/img/loading.gif" lazyload alt="大佬的解答"></p>
 <p>图中的链接是：<a target="_blank" rel="noopener" href="https://zhufan.net/2020/10/14/referrer-policy%E9%82%A3%E4%BA%9B%E4%BA%8B/">Referrer Policy那些事 | 煮饭🍚</a></p>
 <h2 id="Referrer-Policy"><a href="#Referrer-Policy" class="headerlink" title="Referrer-Policy"></a>Referrer-Policy</h2><p>发生了什么呢？浏览器开始用 <code>strict-origin-when-cross-origin</code> 替换之前的 <code>no-referrer-when-downgrade</code> 作为 <code>Referrer-Policy</code> 的默认值，而这个新策略破坏了向不蒜子发送的 <code>Referer</code> 头。</p>
 <p>于是我设置了 <code>Referrer-Policy</code>。具体来说，我将下面的代码加入了我的博客：</p>
@@ -814,5 +804,5 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
-<!-- hexo injector body_end start --><script async src="/js/image-ng.js"></script><script async src="/js/progressbar-done.js"></script><!-- hexo injector body_end end --></body>
+<!-- hexo injector body_end start --><script async src="/js/progressbar-done.js"></script><!-- hexo injector body_end end --></body>
 </html>
