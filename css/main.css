@@ -846,7 +846,7 @@ i.iconfont {
 }
 :root {
   --color-mode: "light";
-  --body-bg-color: linear-gradient(145deg, rgba(255,255,255,.1), rgba(0,0,0,0) 60%),linear-gradient(255deg, #5bcefaff, rgba(0,0,0,0) 60%),linear-gradient(15deg, #f59ab8ff, rgba(0,0,0,0) 120%) fixed;
+  --body-bg-color: linear-gradient(145deg, rgba(255,255,255,.1), rgba(0,0,0,0) 60%),linear-gradient(255deg, #5bcefaff, rgba(0,0,0,0) 60%),linear-gradient(15deg, #f59ab8ff, rgba(0,0,0,0) 120%);
   --board-bg-color: #fff;
   --text-color: #3c4858;
   --sec-text-color: #718096;
