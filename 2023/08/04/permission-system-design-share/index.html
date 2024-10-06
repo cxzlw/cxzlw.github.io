@@ -29,7 +29,7 @@
 <meta property="og:description" content="最近在参与某 OJ 的开发，过程中我们需要一个权限系统。作为一个热爱 MC 的开发者，我很喜欢 luckperms 的设计，于是这个小东西就出来了。在这里给大家分享我们的权限系统设计。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-04T07:32:59.000Z">
-<meta property="article:modified_time" content="2024-10-06T13:28:26.658Z">
+<meta property="article:modified_time" content="2024-10-06T14:53:58.146Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="cxzlw">
 <meta property="article:tag" content="权限系统">
@@ -471,25 +471,25 @@
   
     <article id="comments" lazyload>
       
-  <div class="cusdis" style="width:100%">
-    <div id="cusdis_thread"
-      data-host="https://cusdis.com"
-      data-app-id="bd220f7c-6b55-463a-912f-6e5a10b9b460"
-      data-page-id="3fd4bee1e2a37a4116f205e34bb6844d"
-      data-page-url="2023/08/04/permission-system-design-share/"
-      data-page-title="分享一个 Python 权限系统库的设计"
-      data-theme="auto"
-    >
-    </div>
-  </div>
+  <div id="waline"></div>
   <script type="text/javascript">
-    Fluid.utils.loadComments('#cusdis_thread', function() {
-      Fluid.utils.createScript('https://cusdis.com/js/widget/lang/zh-cn.js');
-      Fluid.utils.createScript('https://cusdis.com/js/cusdis.es.js');
-      var schema = document.documentElement.getAttribute('data-user-color-scheme');
-      if (schema) {
-        document.querySelector('#cusdis_thread').dataset.theme = schema
-      }
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://cdnjs.cloudflare.com/ajax/libs/waline/2.15.5/waline.css')
+      Fluid.utils.createScript('https://cdnjs.cloudflare.com/ajax/libs/waline/2.15.5/waline.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://blog-waline.cxzlw.top","path":"window.location.pathname","meta":["nick","mail","link"],"requiredMeta":["nick"],"lang":"zh-CN","emoji":["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"],"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":0,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        Waline.init(options);
+        Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+          var imgSelector = '#waline .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
     });
   </script>
   <noscript>Please enable JavaScript to view the comments</noscript>
