@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://blog.cxzlw.top/img/plant.jpg">
 <meta property="og:image" content="https://blog.cxzlw.top/img/prokaryotic.jpg">
 <meta property="article:published_time" content="2023-08-31T15:11:29.000Z">
-<meta property="article:modified_time" content="2024-10-17T11:39:10.957Z">
+<meta property="article:modified_time" content="2024-10-17T12:52:18.515Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="cxzlw">
 <meta property="article:tag" content="Blog">
@@ -91,6 +91,7 @@
 
   
 <link rel="stylesheet" href="/css/transbg.css">
+<link rel="stylesheet" href="/css/custom.css">
 
 
 
@@ -747,17 +748,25 @@
   
 </div>
 
-    <div id="statistics-div" class="statistics">
-        <span id="site_pv" style="display: none">
-            总访问量 
-            <span id="site_pv_value"></span>
-            次
+    <div id="statistics-div" class="statistics-div">
+        <span id="page_mv" class="statistics-span" style="display: none">
+                你访问了这个页面
+                <span id="page_mv_value"></span>
+                次
         </span>
-        <span id="site_uv" style="display: none">
-            总访客数 
-            <span id="site_uv_value"></span>
-            人
-        </span>
+        <div class="pvuv-div">
+            <span id="site_pv" class="statistics-span" style="display: none">
+                总访问量
+                <span id="site_pv_value"></span>
+                次
+            </span>
+            
+            <span id="site_uv" class="statistics-span" style="display: none">
+                总访客数
+                <span id="site_uv_value"></span>
+                人
+            </span>
+        </div>
     </div>
   </footer>
 
