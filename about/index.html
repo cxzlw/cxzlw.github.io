@@ -28,8 +28,8 @@
 <meta property="og:site_name" content="创新者老王的博客">
 <meta property="og:description" content="看来你想要了解一点关于我的信息~ 网名：cxzlw[1] 年龄：永远的 18 岁 性别：女 生日：2008 &#x2F; 04 &#x2F; 04 邮箱：cxz.lwnb@gmail.com 我的性别女，我是 MtF 哦~ 目前正在无证含糖，HRT 是从 2024 &#x2F; 06 &#x2F; 12 开始的，第一次 HRT 是用的自制凝胶哦。称呼方面，如果叫我姐姐 &#x2F; 妹妹会超级超级">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-10-18T08:01:17.116Z">
-<meta property="article:modified_time" content="2024-10-18T08:01:17.116Z">
+<meta property="article:published_time" content="2024-10-18T10:22:56.423Z">
+<meta property="article:modified_time" content="2024-10-18T10:22:56.423Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="cxzlw">
 <meta property="article:tag" content="Blog">
@@ -289,7 +289,7 @@
 <article class="page-content">
   <p>看来你想要了解一点关于我的信息~</p>
 <p>网名：cxzlw<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="其实有点想换掉这个网名，但是目前没有想到更合适的呢">[1]</span></a></sup></p>
-<p>年龄：<span id="age"><del>永远的 18 岁</del></span></p>
+<p>年龄：<span id="age" style="display: none;"><del>永远的 18 岁</del></span></p>
 <p>性别：女</p>
 <p>生日：2008 &#x2F; 04 &#x2F; 04</p>
 <p>邮箱：<a href="mailto:cxz.lwnb@gmail.com">cxz.lwnb@gmail.com</a></p>
@@ -317,6 +317,7 @@
     const now = new Date();
     const age = Math.floor((now - birthday) / 1000 / 3600 / 24 / 365); 
     if (age <= 18) age_ele.innerText = "目前是 " + age + " 岁";
+    age_ele.style.display = "inline";
 </script>
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>其实有点想换掉这个网名，但是目前没有想到更合适的呢
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
