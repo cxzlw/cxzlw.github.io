@@ -29,7 +29,7 @@
 <meta property="og:description" content="原题地址：HackTheBox - RSAisEasy  之前做过这个题，是与另一位朋友一起分析的，但是当时没有写 writeup，于是再梳理一遍。 从标题可以看出，这道题与 RSA 有点相关，因此会用到一部分基于 RSA 公式的数学分析。（说实话，在拉着咱朋友一起来分析数学部分之前，是有那么一点不敢做这题的……） 0. 题目内容题目提供了一个 zip 文件，解压后有两个文件 123456# o">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-06T09:54:00.000Z">
-<meta property="article:modified_time" content="2024-11-04T17:59:32.851Z">
+<meta property="article:modified_time" content="2025-01-13T14:25:24.637Z">
 <meta property="article:author" content="cxzlw">
 <meta property="article:tag" content="cxzlw">
 <meta property="article:tag" content="HackTheBox">
@@ -41,7 +41,7 @@
   
   
   
-     <link rel="manifest" href="/manifest.json"> <script async type="module">import {Workbox} from "https://unpkg.com/workbox-window@7.1.0/build/workbox-window.prod.mjs";if ("serviceWorker" in navigator){const wb=new Workbox("/sw.js");wb.register();}</script> 
+     <link rel="manifest" href="/manifest.json"> <script async type="module">import {Workbox} from "https://unpkg.com/workbox-window@7.1.0/build/workbox-window.prod.mjs";if ("serviceWorker" in navigator){const wb=new Workbox("/sw.js");wb.register();}</script>
   
   <title>RSAisEasy Writeup - 创新者老王的博客</title>
 
@@ -374,7 +374,7 @@
 <p>$$<br>\def\mod{\text{ mod }}<br>n2 &#x3D; nE \mod n1 + n1 \cdot k<br>$$</p>
 <p>其中 <code>k</code> 是未知的，你可以直接猜测 <code>k = 0</code> 即 <code>n2 = nE % n1</code>，但我还是想证明它。</p>
 <p>注意到 <code>n2</code> 是两个 <code>getPrime(512)</code> 相乘，因此 <code>0 &lt; k &lt; 2^1024</code>。接下来用代码测试 <code>k</code> 可以的取值。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">n1 = <span class="hljs-number">101302608234750530215072272904674037076286246679691423280860345380727387460347553585319149306846617895151397345134725469568034944362725840889803514170441153452816738520513986621545456486260186057658467757935510362350710672577390455772286945685838373154626020209228183673388592030449624410459900543470481715269</span><br>ne = <span class="hljs-number">601613204734044874510382122719388369424704454445440856955212747733856646787417730534645761871794607755794569926160226856377491672497901427125762773794612714954548970049734347216746397532291215057264241745928752782099454036635249993278807842576939476615587990343335792606509594080976599605315657632227121700808996847129758656266941422227113386647519604149159248887809688029519252391934671647670787874483702292498358573950359909165677642135389614863992438265717898239252246163</span><br><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> (-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>): <br>    n2 = ne % n1 + n1 * k<br>    <span class="hljs-built_in">print</span>(k, <span class="hljs-number">0</span> &lt; n2 &lt; <span class="hljs-number">2</span>**<span class="hljs-number">1024</span>, n2)<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">n1 = <span class="hljs-number">101302608234750530215072272904674037076286246679691423280860345380727387460347553585319149306846617895151397345134725469568034944362725840889803514170441153452816738520513986621545456486260186057658467757935510362350710672577390455772286945685838373154626020209228183673388592030449624410459900543470481715269</span><br>ne = <span class="hljs-number">601613204734044874510382122719388369424704454445440856955212747733856646787417730534645761871794607755794569926160226856377491672497901427125762773794612714954548970049734347216746397532291215057264241745928752782099454036635249993278807842576939476615587990343335792606509594080976599605315657632227121700808996847129758656266941422227113386647519604149159248887809688029519252391934671647670787874483702292498358573950359909165677642135389614863992438265717898239252246163</span><br><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> (-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>):<br>    n2 = ne % n1 + n1 * k<br>    <span class="hljs-built_in">print</span>(k, <span class="hljs-number">0</span> &lt; n2 &lt; <span class="hljs-number">2</span>**<span class="hljs-number">1024</span>, n2)<br></code></pre></td></tr></table></figure>
 
 <p>得到运行结果：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">-1 False -1165705193327509223646449377936290710713049039655470307166720571005763031384300382036555332312895310759950336222328427276047951088897538178479073322538390413188948373749356597618939249379728523681999077958826657180398342840434533058980374881243302617523598758343538175613136045714345227586034384136094220432<br>0 True 100136903041423020991425823526737746365573197640035952973693624809721624428963253203282593974533722584391447008912397042291986993273828302711324440847902763039627790146764630023926517236880457533976468679976683705170312329736955922713306570804595070537102421450884645497775455984735279182873866159334387494837<br>1 False 201439511276173551206498096431411783441859444319727376254553970190449011889310806788601743281380340479542844354047122511860021937636554143601127955018343916492444528667278616645471973723140643591634936437912194067521023002314346378485593516490433443691728441660112829171164048015184903593333766702804869210106<br></code></pre></td></tr></table></figure>
@@ -633,7 +633,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
     </div>
   
   
